@@ -12,14 +12,15 @@
         <!-- Animate.css (CSS Library to add effects/animations to your page) -->
         <!-- Add class="animated effect-name" to your HTML element to add effects -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        <!--reset CSS-did we want to use one?-->
         <!-- Custom CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar" id=navbar-whole style="background-color: #8bd6ba;">
             <div class="container">
                 <h1>
-                <a class="navbar-brand" href="#"><i class="fa fa-wpexplorer" aria-hidden="true"></i> The Hungry Spectator</a></h1>
+                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail rounded" alt="binoculars-man" style="max-height: 50px; max-width: 50px;">
+                <a class="navbar-brand" href="#" style="color: black;">The Hungry Spectator</a></h1>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,13 +28,13 @@
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="#" style="color: black;">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="#" style="color: black;">About Us <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contact Us</a>
+                            <a class="nav-link" href="#" style="color:black;">Contact Us</a>
                         </li>
                         <li class="nav-item">
                             <form class="form-inline my-2 my-lg-0">
@@ -45,10 +46,10 @@
                 </div>
             </div>
         </nav><!-- Navbar -->
-        <div class="jumbotron bg-deepchesnut">
-            <div class="container">
-            	<img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail rounded" alt="binoculars-man" id="logo">
-                <h1 class="text-center"><i class="fa fa-wpexplorer" aria-hidden="true"></i> The Hungry Spectator</h1><h6 class="text-center">Finding sporting events, concerts and food in your area.</h6>
+        <div class="jumbotron bg" style="background-color:#FF9933;">
+            <div class="container text-center">
+                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail" alt="binoculars-man" id="logo">
+                <h1 class="text-center"><i aria-hidden="true"></i> The Hungry Spectator</h1><h6 class="text-center">Finding sporting events, concerts and food in your area</h6>
                 <hr class="bg-white">
                 <div class="row">
                     <div class="col-md-6 offset-md-3">
@@ -67,15 +68,16 @@
             </div>
         </div><!-- Jumbotron -->
 
+
         <div class="container">
             <div class="row">
                 <!-- Main Content Section (Occupies 9 columns) -->
                 <section class="col-md-9 primary-content">
                     <div class="card">
-                        <div class="card-header bg-deepchesnut">
+                        <div class="card-header" style="color: white;background-color: #8bd6ba;">
                             Featured
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="assets/images/600x400.svg" class="img-fluid">
@@ -83,12 +85,12 @@
                                 <div class="col-md-8">
                                     <h4 class="card-title">Record Heading</h4>
                                     <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-primary bg-dark">Go somewhere</a>
+                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
                                 </div>
                             </div>
                         </div><!-- card-body -->
-                        <hr>
-                        <div class="card-body">
+                        <br>
+                        <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="assets/images/600x400.svg" class="img-fluid">
@@ -96,12 +98,12 @@
                                 <div class="col-md-8">
                                     <h4 class="card-title">Record Heading</h4>
                                     <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-primary bg-dark">Go somewhere</a>
+                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
                                 </div>
                             </div>
                         </div><!-- card-body -->
-                        <hr>
-                        <div class="card-body">
+                        <br>
+                        <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="assets/images/600x400.svg" class="img-fluid">
@@ -109,12 +111,12 @@
                                 <div class="col-md-8">
                                     <h4 class="card-title">Record Heading</h4>
                                     <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-primary bg-dark">Go somewhere</a>
+                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
                                 </div>
                             </div>
                         </div><!-- card-body -->
-                        <hr>
-                        <div class="card-body">
+                        <br>
+                        <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="assets/images/600x400.svg" class="img-fluid">
@@ -122,58 +124,54 @@
                                 <div class="col-md-8">
                                     <h4 class="card-title">Record Heading</h4>
                                     <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-primary bg-dark">Go somewhere</a>
+                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
                                 </div>
                             </div>
                         </div><!-- card-body -->
+                        <br>
                     </div><!-- card -->
                 </section><!-- column (Main Content Section) -->
                 
                 <!-- Sidebar Section (Occupies 3 columns) -->
                 <aside class="col-md-3 primary-sidebar-content">
                     <div class="card">
-                        <div class="card-header bg-deepchesnut">
-                            Popular Food
+                        <div class="card-header" style= "color: white;background-color: #8bd6ba;">
+                            Popular Sports
                         </div>
-                        <div class="card-body">
-                            <button class="btn btn-primary btn-sports" data-name="nfl">NFL</button>
-                            <button class="btn btn-primary btn-sports" data-name="nba">NBA</button>
-                            <button class="btn btn-primary btn-sports" data-name="soccer">Soccer</button>
-                            <button class="btn btn-primary btn-sports" data-name="wwe">WWE</button>
+                        <div class="card-body" style="background-color: #d3d3d3;">
+                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nfl">NFL</button>
+                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">NBA</button>
+                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">MLB</button>
+                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">NHL</button>
+                        </div>
+
+                <br>
+
+                    <div class="card">
+                        <div class="card-header" style= "color: white;background-color: #8bd6ba;">
+                            Dining Options
+                        </div>
+                        <div class="card-body" style="background-color: #d3d3d3;">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-secondary btn-lg btn-block">Breakfast</button>
+                                <br>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block">Lunch</button>
+                                <br>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block">Dinner</button>
+                                <br>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block">Bars</button>                 
+                            </div>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header bg-deepchesnut">
-                            Popular Restaurant
-                        </div>
-                        <div class="card-body">
-                            <button class="btn btn-primary btn-sports">one</button>
-                            <button class="btn btn-primary">longname</button>
-                            <button class="btn btn-primary">anotherlongname</button>
-                            <button class="btn btn-primary">two</button>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header bg-deepchesnut">
-                            Popular Bar
-                        </div>
-                        <div class="card-body">
-                            <button class="btn btn-primary">one</button>
-                            <button class="btn btn-primary">longname</button>
-                            <button class="btn btn-primary">anotherlongname</button>
-                            <button class="btn btn-primary">two</button>
-                        </div>
-                    </div>
                 </aside><!-- column (Sidebar Section) -->
             </div><!-- row -->
         </div>
-        <footer class="bg-deepchesnut">
+        <footer class="bg" style= "background-color: #FF9933;">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col text-center">
-                        Denish, Jeff, Kalpesh, Kelvin
+                        Denise, Jeff, Kalpesh, Kelvin
                     </div>
                 </div>
             </div>
@@ -186,4 +184,4 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         <script src="assets/javascript/app.js"></script>
     </body>
-</html>
+</html
