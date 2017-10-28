@@ -10,8 +10,9 @@
 
 
 #logo{
-	max-height: 200px;
-	max-width: 200px;
+	max-height: 150px;
+	max-width: 150px;
+}
 
 .btn-search,
 #search-term,

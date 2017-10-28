@@ -20,7 +20,6 @@
         <nav class="navbar navbar-expand-lg navbar" id=navbar-whole style="background-color: #8bd6ba;">
             <div class="container">
                 <h1>
-                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail rounded" alt="binoculars-man" style="max-height: 50px; max-width: 50px;">
                 <a class="navbar-brand" href="#" style="color: black;">The Hungry Spectator</a></h1>
 
 
@@ -56,6 +55,17 @@
                 <hr class="bg-white">
                 <div class="row">
                     <div class="col-md-6 offset-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Type
+                            </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">Team</button>
+                                    <button class="dropdown-item" type="button">Event</button>
+                                    <button class="dropdown-item" type="button">Artist</button>
+                                    <button class="dropdown-item" type="button">Venue</button>
+                                </div>
+                        </div>
                         <form action="">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="search-term" placeholder="Search by team, event, artist or venue">
@@ -82,56 +92,10 @@
                         </div>
                         <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <img src="assets/images/600x400.svg" class="img-fluid">
-                                </div>
-                                <div class="col-md-8">
-                                    <h4 class="card-title">Record Heading</h4>
-                                    <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
-                                </div>
                             </div>
                         </div><!-- card-body -->
-                        <br>
-                        <div class="card-body" style="background-color: #d3d3d3;">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img src="assets/images/600x400.svg" class="img-fluid">
-                                </div>
-                                <div class="col-md-8">
-                                    <h4 class="card-title">Record Heading</h4>
-                                    <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div><!-- card-body -->
-                        <br>
-                        <div class="card-body" style="background-color: #d3d3d3;">
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img src="assets/images/600x400.svg" class="img-fluid">
-                                </div>
-                                <div class="col-md-8">
-                                    <h4 class="card-title">Record Heading</h4>
-                                    <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div><!-- card-body -->
-                        <br>
-                        <div class="card-body" style="background-color: #d3d3d3;">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img src="assets/images/600x400.svg" class="img-fluid">
-                                </div>
-                                <div class="col-md-8">
-                                    <h4 class="card-title">Record Heading</h4>
-                                    <p class="card-text">Description about record</p>
-                                    <a href="#" class="btn btn-secondary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div><!-- card-body -->
+                        
                         <br>
                     </div><!-- card -->
                 </section><!-- column (Main Content Section) -->
@@ -147,6 +111,8 @@
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">NBA</button>
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="mlb">MLB</button>
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="nhl">NHL</button>
+
+                           
                         </div>
 
                 <br>
@@ -157,13 +123,13 @@
                         </div>
                         <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="card-body">
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Breakfast</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="breakfast">Breakfast</button>
                                 <br>
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Lunch</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="lunch">Lunch</button>
                                 <br>
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Dinner</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="dinner">Dinner</button>
                                 <br>
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Bars</button>                 
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="bars">Bars</button>                 
                             </div>
                         </div>
                     </div>
@@ -186,7 +152,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <script src="assets/javascript/app.js"></script>
+        <script src="assets/js/app.js"></script>
     </body>
 </html>
 

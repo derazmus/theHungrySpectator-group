@@ -1,4 +1,3 @@
-
 $(".food-btn").on("click", function() {
     var zkey = "312c4d4c34ef87c50671cf222cece7f5";
     var foodName = $(this).attr("data-name");
@@ -46,7 +45,6 @@ $(".food-btn").on("click", function() {
         }
     })
 });
-
 
 $(document).ready(function(){
     
