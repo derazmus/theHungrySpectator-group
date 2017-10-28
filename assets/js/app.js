@@ -75,8 +75,8 @@ console.log(name)
             $(".primary-content").html('');
             for(var i=0; i<response.events.length; i++ ){
                 var card = $("<div class='card'></div>");
-                var cardHeader = $("<div class='card-header'></div>");
-                var cardBody = $("<div class='card-body'></div>");
+                var cardHeader = $("<div class='card-header' style='background-color:#8bd6ba; color: white;'></div>");
+                var cardBody = $("<div class='card-body' style='background-color:#d3d3d3'></div>");
                 var row = $("<div class='row'></div>");
 
 
