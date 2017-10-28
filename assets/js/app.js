@@ -1,13 +1,34 @@
 $(".food-btn").on("click", function() {
     event.preventDefault();
-
     var eStreetToken = "a558a49dffe756bd";
+    var zkey = "312c4d4c34ef87c50671cf222cece7f5";
     var foodName = $(this).attr("data-name");
 
     // contains the latitude and longitude of Evanston, IL
     // searches food within a 10 mile radius
     var searchURL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token="+ eStreetToken
         + "&latitude=42.0451&longitude=-87.6877&method=both&pickup-radius=5&search=" + foodName;
+
+    // Gets location latitude, longitude. 
+    var longitude ="";
+
+    var latitude ="";
+
+       function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    }
+    function showPosition(position) {
+        latitude = position.coords.latitude; 
+        longitude = position.coords.longitude; 
+    }
+    getLocation();
+    console.log(latitude, longitude);
+
+   
 
     $.ajax({
         url: searchURL,
