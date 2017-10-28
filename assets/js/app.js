@@ -1,7 +1,4 @@
-
-
 $(document).ready(function(){
-    
     /* Function to get user IP address */
     /* Help to find current location */
     $.get("http://ipinfo.io", function(response) {
