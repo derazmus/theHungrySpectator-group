@@ -25,6 +25,7 @@ $(".food-btn").on("click", function() {
         latitude = position.coords.latitude; 
         longitude = position.coords.longitude; 
     }
+
     getLocation();
     console.log(latitude, longitude);
 
@@ -50,15 +51,20 @@ $(".food-btn").on("click", function() {
                 var img = $("<img width='100px' height='100px' src='" + response.restaurants[i].logoUrl + "'>");
                 var contentColumn = $("<div class='col-md-9'></div>");
 
+                var button = $("<br><br><button>More Info</button>");
+
+
                 cardHeader.html(response.restaurants[i].name);
                 imageColumn.append(img);
                 
                 // contentColumn.html(response.restaurants[i].restaurant.cuisines);
-                contentColumn.html(response.restaurants[i].streetAddress);
+                contentColumn.html(response.restaurants[i]);
+                contentColumn.append(button);
                 // contentColumn.html(response.restaurants[i].restaurant.average_cost_for_two);
 
                 innerRow.append(imageColumn);
                 innerRow.append(contentColumn);
+
 
                 cardBody.append(innerRow);
 
