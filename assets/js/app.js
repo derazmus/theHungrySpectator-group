@@ -23,6 +23,34 @@ $(document).ready(function(){
                 var cardBody = $("<div class='card-body'></div>");
                 var row = $("<div class='row'></div>");
 
+// <<<<<<< HEAD
+// =======
+// $(document).ready(function(){
+    
+//     /* Function to get user IP address */
+//     /* Help to find current location */
+//     $.get("http://ipinfo.io", function(response) {
+//         alert(response.ip);
+//     }, "jsonp");
+
+//     $(".container").on("click",".btn-sports", function(){
+//         var sportName = $(this).attr("data-name");
+//         var url = "https://api.seatgeek.com/2/events?q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+//         $.ajax({
+//             url: url,
+//             type: 'GET',
+//         })
+//         .done(function(response) {
+//             console.log(response);
+//             // console.log(response);
+//             $(".primary-content").html('');
+//             for(var i=0; i<response.events.length; i++ ){
+//                 var card = $("<div class='card'></div>");
+//                 var cardHeader = $("<div class='card-header'></div>");
+//                 var cardBody = $("<div class='card-body'></div>");
+//                 var row = $("<div class='row'></div>");
+
+// >>>>>>> ade9cd3a79c91a4d9d018988d99d292806f323ff
                 var innerRow = $("<div class='row'></div>");
 
                 var imageColumn = $("<div class='col-md-3'></div>");
@@ -46,4 +74,8 @@ $(document).ready(function(){
             }
         });
     });
+// <<<<<<< HEAD
+// =======
+
+// >>>>>>> ade9cd3a79c91a4d9d018988d99d292806f323ff
 });
