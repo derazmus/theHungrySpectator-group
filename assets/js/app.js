@@ -1,6 +1,8 @@
 $(".food-btn").on("click", function() {
     event.preventDefault();
 
+    // variables food buttons
+
     var eStreetToken = "a558a49dffe756bd";
     var foodName = $(this).attr("data-name");
 
@@ -8,6 +10,8 @@ $(".food-btn").on("click", function() {
     // searches food within a 10 mile radius
     var searchURL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token="+ eStreetToken
         + "&latitude=42.0451&longitude=-87.6877&method=both&pickup-radius=5&search=" + foodName;
+
+    // ajax call food buttons
 
     $.ajax({
         url: searchURL,
@@ -19,8 +23,8 @@ $(".food-btn").on("click", function() {
 
         for(var i = 0; i < response.restaurants.length; i++) {
                 var card = $("<div class='card'></div>");
-                var cardHeader = $("<div class='card-header'></div>");
-                var cardBody = $("<div class='card-body'></div>");
+                var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+                var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
                 var row = $("<div class='row'></div>");
 
                 var innerRow = $("<div class='row'></div>");
@@ -112,6 +116,7 @@ console.log(name)
 	});
 });
 
+//sports buttons
 
     $(".container").on("click",".btn-sports", function(){
         var sportName = $(this).attr("data-name");
