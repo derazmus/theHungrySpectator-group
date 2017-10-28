@@ -1,10 +1,13 @@
 $(".food-btn").on("click", function() {
-    var zkey = "312c4d4c34ef87c50671cf222cece7f5";
+    event.preventDefault();
+
+    var eStreetToken = "a558a49dffe756bd";
     var foodName = $(this).attr("data-name");
 
     // contains the latitude and longitude of Evanston, IL
-    var searchURL = "https://developers.zomato.com/api/v2.1/search?apikey=" + 
-        zkey +"&count=10&lat=42.0451&lon=-87.6877&q=" + foodName;
+    // searches food within a 10 mile radius
+    var searchURL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token="+ eStreetToken
+        + "&latitude=42.0451&longitude=-87.6877&method=both&pickup-radius=5&search=" + foodName;
 
     $.ajax({
         url: searchURL,
@@ -23,14 +26,14 @@ $(".food-btn").on("click", function() {
                 var innerRow = $("<div class='row'></div>");
 
                 var imageColumn = $("<div class='col-md-3'></div>");
-                var img = $("<img width='100px' height='100px' src='" + response.restaurants[i].restaurant.featured_image + "'>");
+                var img = $("<img width='100px' height='100px' src='" + response.restaurants[i].logoUrl + "'>");
                 var contentColumn = $("<div class='col-md-9'></div>");
 
-                cardHeader.html(response.restaurants[i].restaurant.name);
+                cardHeader.html(response.restaurants[i].name);
                 imageColumn.append(img);
                 
                 // contentColumn.html(response.restaurants[i].restaurant.cuisines);
-                contentColumn.html(response.restaurants[i].restaurant.location.address);
+                contentColumn.html(response.restaurants[i].streetAddress);
                 // contentColumn.html(response.restaurants[i].restaurant.average_cost_for_two);
 
                 innerRow.append(imageColumn);
