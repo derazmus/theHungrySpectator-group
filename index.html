@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <link rel="icon" type="image/gif" href="http://www.safarisafricana.com/wp-content/uploads/2013/09/icon_binoculars_big1.png"/>
         <title>The Hungry Spectator</title>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -13,14 +14,16 @@
         <!-- Add class="animated effect-name" to your HTML element to add effects -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
-        <!--reset CSS-did we want to use one?-->
+        <!--firebase-->
+       <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
         <!-- Custom CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
         <nav class="navbar navbar-expand-lg navbar" id=navbar-whole style="background-color: #8bd6ba;">
             <div class="container">
                 <h1>
-                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail rounded" alt="binoculars-man" style="max-height: 50px; max-width: 50px;">
+                <img src="http://www.safarisafricana.com/wp-content/uploads/2013/09/icon_binoculars_big1.png" id="smallbinoculars">
                 <a class="navbar-brand" href="#" style="color: black;">The Hungry Spectator</a></h1>
 
 
@@ -29,19 +32,19 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" style="color: black;">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item active"> 
+                            <a class="nav-link" href="index.html" style="color: black;">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" style="color: black;">About Us <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="aboutus.html" style="color: black;">About Us <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" style="color:black;">Contact Us</a>
+                            <a class="nav-link" href="contact.html" style="color:black;">Contact Us</a>
                         </li>
                         <li class="nav-item">
                             <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-deepchesnut my-2 my-sm-0" type="submit">Search</button>
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search. . .">
+                                <button class="btn btn-solid my-2 my-sm-0" type="submit" id="search-button">Search</button>
                             </form>
                         </li>
                     </ul>
@@ -51,14 +54,24 @@
 
         <div class="jumbotron" style="background-color:#FF9933;">
             <div class="container text-center">
-                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail" alt="binoculars-man" id="logo">
+                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail animated slideInLeft" alt="binoculars-man" id="logo">
                 <h1 class="text-center"><i aria-hidden="true"></i> The Hungry Spectator</h1><h6 class="text-center">Finding sporting events, concerts and food in your area</h6>
                 <hr class="bg-white">
                 <div class="row">
-                    <div class="col-md-6 offset-md-3">
+                    <div class="col-md-6 offset-md-4 form-inline">
+                        <div class="dropdown" id="dropdown">
+                            <select class="custom-select" aria-labelledby="dropdownMenu2" style="color: grey">
+                                <option selected>Select type</option>
+                                <option value="1">Team</option>
+                                <option value="2">Event</option>
+                                <option value="3">Artist</option>
+                                 <option value="3">Venue</option>
+                            </select>
+                        </div>
+                        <br> 
                         <form action="">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="search-term" placeholder="Search by team, event, artist or venue">
+                                <input type="text" class="form-control" id="search-term" placeholder="Search. . .">
                                 <span class="input-group-addon" id="search-icon">
                                     <button class="btn btn-outline-dark">
                                         <i class="fa fa-search" aria-hidden="true"></i>
@@ -93,25 +106,28 @@
                         </div>
                     </div>
                 <br>
+                    <br>
                     <div class="card">
                         <div class="card-header" style= "color: white;background-color: #8bd6ba;">
                             Dining Options
                         </div>
                         <div class="card-body" style="background-color: #d3d3d3;">
                             <div class="card-body">
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Breakfast</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="breakfast">Breakfast</button>
                                 <br>
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Lunch</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="lunch">Lunch</button>
                                 <br>
-                                <button type="button" class="btn btn-secondary btn-lg btn-block">Dinner</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="dinner">Dinner</button>
                                 <br>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block">Bars</button>
+                                <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="bars">Bars</button>
                             </div>
                         </div>
                     </div>
                 </aside><!-- column (Sidebar Section) -->
             </div><!-- row -->
         </div>
+
         <footer class="bg" style= "background-color: #FF9933;">
             <div class="container-fluid">
                 <div class="row">
@@ -122,12 +138,10 @@
             </div>
         </footer>
 
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <script src="assets/javascript/app.js"></script>
+        <script src="assets/js/app.js"></script>
     </body>
 </html>
 
