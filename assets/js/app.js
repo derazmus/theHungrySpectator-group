@@ -1,10 +1,32 @@
 $(".food-btn").on("click", function() {
+    event.preventDefault();
     var zkey = "312c4d4c34ef87c50671cf222cece7f5";
     var foodName = $(this).attr("data-name");
 
     // contains the latitude and longitude of Evanston, IL
     var searchURL = "https://developers.zomato.com/api/v2.1/search?apikey=" + 
         zkey +"&count=10&lat=42.0451&lon=-87.6877&q=" + foodName;
+
+    // Gets location latitude, longitude. 
+    var longitude ="";
+
+    var latitude ="";
+
+       function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    }
+    function showPosition(position) {
+        latitude = position.coords.latitude; 
+        longitude = position.coords.longitude; 
+    }
+    getLocation();
+    console.log(latitude, longitude);
+
+   
 
     $.ajax({
         url: searchURL,
