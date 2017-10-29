@@ -24,6 +24,7 @@ $(document).ready(function(){
     var phone = "";
     var email = "";
 
+
     $(".container").on("click",".btn-sports", function(){
         var sportName = $(this).attr("data-name");
         var url = "https://api.seatgeek.com/2/events?q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
@@ -59,7 +60,6 @@ $(document).ready(function(){
 
                 card.append(cardHeader);
                 card.append(cardBody);
-
                 $(".primary-content").append(card);
             }
         });
@@ -93,10 +93,13 @@ $(document).ready(function(){
                 var img = $("<img width='100px' height='100px' src='" + response.restaurants[i].logoUrl + "'>");
                 var contentColumn = $("<div class='col-md-9'></div>");
 
+                var button = $("<br><br><button>More Info</button>");
+
                 cardHeader.html(response.restaurants[i].name);
                 imageColumn.append(img);
                 
-                contentColumn.html(response.restaurants[i].streetAddress);
+                contentColumn.html(response.restaurants[i]);
+                contentColumn.append(button);
 
                 innerRow.append(imageColumn);
                 innerRow.append(contentColumn);
