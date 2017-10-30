@@ -52,8 +52,9 @@
             </div>
         </nav><!-- Navbar -->
 
-        <div class="jumbotron bg" style="background-color:#FF9933;">
+        <div class="jumbotron" style="background-color:#FF9933;">
             <div class="container text-center">
+
                 <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail animated zoomInDown" alt="binoculars-man" id="logo">
                 <h1 class="text-center"><i aria-hidden="true"></i> The Hungry Spectator</h1><h6 class="text-center">Finding sporting events, concerts and food in your area</h6>
                 <hr class="bg-white">
@@ -68,7 +69,7 @@
                                  <option value="3">Venue</option>
                             </select>
                         </div>
-                    <br> 
+                        <br> 
                         <form action="">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="search-term" placeholder="Search. . .">
@@ -88,19 +89,7 @@
             <div class="row">
                 <!-- Main Content Section (Occupies 9 columns) -->
                 <section class="col-md-9 primary-content">
-                    <div class="card">
-
-                        <div class="card-header" style="color: white;background-color: #8bd6ba;">
-                            Featured
-                        </div>
-                        <div class="card-body" style="background-color: #d3d3d3;">
-                            <div class="row">
-                            </div>
-                        </div><!-- card-body -->
-
-                        
-                        <br>
-                    </div><!-- card -->
+                    <!-- Data From API Goes Here -->
                 </section><!-- column (Main Content Section) -->
                 
                 <!-- Sidebar Section (Occupies 3 columns) -->
@@ -109,17 +98,15 @@
                         <div class="card-header" style= "color: white;background-color: #8bd6ba;">
                             Popular Sports
                         </div>
+
                         <div class="card-body" style="background-color: #d3d3d3;">
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="nfl">NFL</button>
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">NBA</button>
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="mlb">MLB</button>
                             <button class="btn btn-secondary btn-sports btn-sm" data-name="nhl">NHL</button>
-
-                           
                         </div>
-
-                <br>
-
+                    </div>
+                    <br>
                     <div class="card">
                         <div class="card-header" style= "color: white;background-color: #8bd6ba;">
                             Dining Options
@@ -131,14 +118,16 @@
                                 <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="lunch">Lunch</button>
                                 <br>
                                 <button type="button" class="food-btn btn btn-secondary btn-lg btn-block" data-name="dinner">Dinner</button>
+
                                 <br>        
+
                             </div>
                         </div>
                     </div>
-
                 </aside><!-- column (Sidebar Section) -->
             </div><!-- row -->
         </div>
+
         <footer class="bg" style= "background-color: #FF9933;">
             <div class="container-fluid">
                 <div class="row">
@@ -150,8 +139,6 @@
             </div>
         </footer>
 
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
