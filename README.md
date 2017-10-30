@@ -1,16 +1,22 @@
 # theHungrySpectator-group
 
-web link:
+https://derazmus.github.io/theHungrySpectator-group/
 
 The Hungry Spectator
 
+Concept: Provide sporting tickets information and resturants information. 
+
 APIs Used:
 SeatGeek
-Zamato
+StreetEat
 Google Maps
+DarkSky Weater
 
-Tech used:
-jQuery
+Technology used:
+CSS/HTML
 Bootstrap 4
+Animate.css
+jQuery
+AJAX call
+Firebase
 
-Description: 

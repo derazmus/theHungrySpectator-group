@@ -86,8 +86,8 @@ $(document).ready(function(){
             $(".primary-content").html('');
             for(var i = 0; i < response.restaurants.length; i++) {
                 var card = $("<div class='card'></div>");
-                var cardHeader = $("<div class='card-header'></div>");
-                var cardBody = $("<div class='card-body'></div>");
+                var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+                var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
                 var row = $("<div class='row'></div>");
 
                 var innerRow = $("<div class='row'></div>");
@@ -98,7 +98,7 @@ $(document).ready(function(){
 
                 var restaurantAPIKey = response.restaurants[i].apiKey;
 
-                var button = $("<br><br><button class='food-info' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
+                var button = $("<br><br><button class='food-info btn btn-secondary btn-lg btn-block' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
 
                 // name for that current restaurant
                 var restaurantName = response.restaurants[i].name;
@@ -140,8 +140,8 @@ $(document).ready(function(){
             console.log(response);
             // $("#food-info-container").html('');
             var foodCard = $("<div class='card'></div>");
-            var foodCardHeader = $("<div class='card-header'></div>");
-            var foodCardBody = $("<div class='card-body'></div>");
+            var foodCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+            var foodCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
             var foodCardRow = $("<div class='row'></div>");
             var foodCardInnerRow = $("<div class='row'></div>");
 
