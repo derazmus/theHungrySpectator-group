@@ -31,10 +31,10 @@ $(document).ready(function(){
             type: 'GET'
             })
             .done(function(data) {
-            console.log("Query " + onLoadQuery);
-            console.log("Length " + data.events.length);
+            // console.log("Query " + onLoadQuery);
+            // console.log("Length " + data.events.length);
             $(".page-heading").html("<h3>Popular Events Near <span class='event-heading'>" + data.meta.geolocation.display_name + "</span></h3><hr>");
-            displaySeatGeekEvent(data);
+            displaySeatGeekEvent(data, "events");
         });
     }, "jsonp");
 
@@ -56,19 +56,25 @@ $(document).ready(function(){
     var phone = "";
     var email = "";
 
-    var eventEndpoint = $(".eventEndpoint").val();
-    console.log($(".eventEndpoint").val());
+    var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
+    // console.log($(".eventEndpoint").val());
     
+    /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
     $(".container").on("change", ".eventEndpoint", function(){
         eventEndpoint = $(".eventEndpoint").val();
         $(".eventEndpoint").css("border", "none");
     });
 
+    /* Remove border if any (to remove red border) */
     $("#search-term").on("focus", function(){
         $("#search-term").css("border", "none");
     });
     
-
+    /* Custome search event */
+    /* 1. Get the "eventEndpoint" variable (current selected option) -> */
+    /* 2. Get the search-box value */
+    /* 3. Perform validation (Both above values shouldn't be empty or null) */
+    /* 3. Generate and Send query. Display data on UI */
     $(".container").on("click",".btn-search-event", function(){
         event.preventDefault();
         var eventName = $("#search-term").val();
@@ -83,19 +89,27 @@ $(document).ready(function(){
             .done(function(response) {
                 console.log(response);
                 $(".primary-content").html('');
+                /* Generic function to display data on UI */
+                /* First argument takes object return by ajax call. Second argument is endpoint type (i.e events, performers or venues)*/
                 displaySeatGeekEvent(response, eventEndpoint);
             });
         }
         else{
+            /* If user doesn't select any option, this code updates border to red */
             if(eventEndpoint === "default"){
                 $(".eventEndpoint").css("border", "2px solid red");
             }
+            /* If user submit form without writing anything to search-box, this code updates border to red */
             if(eventName === ""){
                 $("#search-term").css("border", "2px solid red");
             }
         }
     });
 
+    /* Pre-built sports button event */
+    /* 1. Get the button's data value */
+    /* 2. Generate and Send query string */
+    /* 3. Display data on UI */
     $(".container").on("click",".btn-sports", function(){
         var sportName = $(this).attr("data-name");
         var url = "https://api.seatgeek.com/2/events?geoip=" + userIP + "&q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
@@ -107,38 +121,13 @@ $(document).ready(function(){
         .done(function(response) {
             console.log(response);
             $(".primary-content").html('');
-            displaySeatGeekEvent(response);
-            // for(var i=0; i<response.events.length; i++ ){
-            //     var card = $("<div class='card'></div>");
-            //     var cardHeader = $("<div class='card-header' style='background-color:#8bd6ba; color: white;'></div>");
-            //     var cardBody = $("<div class='card-body' style='background-color:#d3d3d3'></div>");
-            //     var row = $("<div class='row'></div>");
-
-            //     var innerRow = $("<div class='row'></div>");
-
-            //     var imageColumn = $("<div class='col-md-3'></div>");
-            //     var img = $("<img width='100px' height='100px' src='" + response.events[i].performers[0].image + "'>");
-            //     var contentColumn = $("<div class='col-md-9'></div>");
-
-            //     cardHeader.html(response.events[i].title);
-            //     imageColumn.append(img);
-            //     contentColumn.html(response.events[i].venue.address);
-            //     contentColumn.html(response.events[i].venue.display_location);
-
-            //     innerRow.append(imageColumn);
-            //     innerRow.append(contentColumn);
-
-            //     cardBody.append(innerRow);
-
-            //     card.append(cardHeader);
-            //     card.append(cardBody);
-            //     $(".primary-content").append(card);
-            // }
+            /* Generic function to display data on UI */
+            /* First argument takes object return by ajax call. Second argument is endpoint type (i.e events, performers or venues)*/
+            displaySeatGeekEvent(response, "events");
         });
     });
 
     //food buttons
-
     $(".food-btn").on("click", function() {
         event.preventDefault();
         var eStreetToken = "a558a49dffe756bd";
@@ -156,6 +145,7 @@ $(document).ready(function(){
             console.log(response);
             $(".primary-content").html('');
             var responseLength = response.restaurants.length;
+            /* Generic function to display eatStreet API's data to UI */
             displayeatStreetEvent(response);
         });
     });
@@ -179,41 +169,14 @@ $(document).ready(function(){
         if(recordLength > 0){
             for(var i=0; i<recordLength; i++){
                     
-                // var card = $("<div class='card'></div>");
-                // var cardHeader = $("<div class='card-header'></div>");
-                // var cardBody = $("<div class='card-body'></div>");
-                // var row = $("<div class='row'></div>");
-                // var imageColumn = $("<div class='col-md-2'></div>");
-                // var img = $("<img class='img-fluid rounded'>");
-                // var contentColumn = $("<div class='col-md-10'></div>");
-                // var btnMoreInfo = $("<button class='btn btn-default btn-sm btn-more-info'>More Info</button>");
-                // btnMoreInfo.attr("record-id", data.events[i].id);
-
-                // cardHeader.html(data.events[i].short_title);
-
-                // img.attr("src", data.events[i].performers[0].image);
-                // contentColumn.html(data.events[i].venue.name + "<br>" + data.events[i].venue.address + "<br>");
-                // contentColumn.append(btnMoreInfo);
-
-                // imageColumn.append(img);
-                // row.append(imageColumn);
-                // row.append(contentColumn);
-
-                // cardBody.append(row);
-                // card.append(cardHeader);
-                // card.append(cardBody);
-                // $(".primary-content").append(card);
-
-                var div = $("<div class='row'></div>");
+                var card = $("<div class='card'></div>");
+                var cardHeader = $("<div class='card-header'></div>");
+                var cardBody = $("<div class='card-body'></div>");
+                var row = $("<div class='row'></div>");
                 var imageColumn = $("<div class='col-md-2'></div>");
-                var contentColumn = $("<div class='col-md-10'></div>");
-
                 var img = $("<img class='img-fluid rounded'>");
-                var eventTitle = $("<h4></h4>");
-                var eventPlace = $("<p></p>");
-                var eventAddress = $("<p></p>");
-
-                var hr = $("<hr></hr>");
+                var contentColumn = $("<div class='col-md-10'></div>");
+                var btnMoreInfo = $("<button class='btn btn-default btn-sm btn-more-info'>More Info</button>");
 
                 if(eventType === "events"){
 
@@ -222,10 +185,9 @@ $(document).ready(function(){
                     else
                         img.attr("src", "assets/images/spectator.png");
                     
-                    eventTitle.html(data.events[i].title);
-                    eventPlace.html(data.events[i].type);
-                    eventAddress.html(data.events[i].venue.address);
-
+                    btnMoreInfo.attr("record-id", data.events[i].id);
+                    cardHeader.html(data.events[i].short_title);
+                    contentColumn.html(data.events[i].venue.name + "<br>" + data.events[i].venue.address + "<br>");
                 }
                 else if(eventType === "performers"){
 
@@ -234,32 +196,26 @@ $(document).ready(function(){
                     else
                         img.attr("src", "assets/images/spectator.png");
                     
-                    eventTitle.html(data.performers[i].name);
-                    eventPlace.html(data.performers[i].type);
-                    // eventAddress.html(data.events[i].venue.address);
-
+                    btnMoreInfo.attr("record-id", data.performers[i].id);
+                    cardHeader.html(data.performers[i].name);
+                    contentColumn.html(data.performers[i].type + "<br>");
                 }
                 else if(eventType === "venues"){
-
                     img.attr("src", "assets/images/spectator.png");                    
-                    eventTitle.html(data.venues[i].name);
-                    eventPlace.html(data.venues[i].city);
-                    // eventAddress.html(data.events[i].venue.address);
+                    btnMoreInfo.attr("record-id", data.venues[i].id);
+                    cardHeader.html(data.venues[i].name);
+                    contentColumn.html(data.venues[i].city + "<br>");
                 }
-                else{
-
-                }
-
+                
+                contentColumn.append(btnMoreInfo);
                 imageColumn.append(img);
-                contentColumn.append(eventTitle);
-                contentColumn.append(eventPlace);
-                contentColumn.append(eventAddress);
+                row.append(imageColumn);
+                row.append(contentColumn);
 
-                div.append(imageColumn);
-                div.append(contentColumn);
-
-                $(".primary-content").append(div);
-                $(".primary-content").append(hr);
+                cardBody.append(row);
+                card.append(cardHeader);
+                card.append(cardBody);
+                $(".primary-content").append(card);
             }
         }
         else{
