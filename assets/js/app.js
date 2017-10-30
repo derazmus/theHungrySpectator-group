@@ -7,7 +7,6 @@ $(document).ready(function(){
         //alert(response.ip);
     }, "jsonp");
 
-
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyBaSQnTDSw5lBSEttOIWKzI3I4g1wjlHz0",
@@ -26,7 +25,6 @@ $(document).ready(function(){
     var phone = "";
     var email = "";
 
-//sports buttons
 
     $(".container").on("click",".btn-sports", function(){
         var sportName = $(this).attr("data-name");
@@ -63,7 +61,6 @@ $(document).ready(function(){
 
                 card.append(cardHeader);
                 card.append(cardBody);
-
                 $(".primary-content").append(card);
             }
         });
@@ -99,10 +96,21 @@ $(document).ready(function(){
                 var img = $("<img width='100px' height='100px' src='" + response.restaurants[i].logoUrl + "'>");
                 var contentColumn = $("<div class='col-md-9'></div>");
 
-                cardHeader.html(response.restaurants[i].name);
+                var restaurantAPIKey = response.restaurants[i].apiKey;
+
+                var button = $("<br><br><button class='food-info' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
+
+                // name for that current restaurant
+                var restaurantName = response.restaurants[i].name;
+                var restaurantCity = response.restaurants[i].city;
+                var restaurantState = response.restaurants[i].state;
+                var restaurantZip = response.restaurants[i].zip;
+
+                cardHeader.html(restaurantName);
                 imageColumn.append(img);
                 
-                contentColumn.html(response.restaurants[i].streetAddress);
+                contentColumn.html(restaurantCity + ", " + restaurantState + " " + restaurantZip);
+                contentColumn.append(button);
 
                 innerRow.append(imageColumn);
                 innerRow.append(contentColumn);
@@ -117,8 +125,65 @@ $(document).ready(function(){
         });
     });
 
-    //  Button for adding data from contact us page
-    
+    $(document.body).on("click", ".food-info", function() {
+        
+        $(".primary-content").html('');
+
+        var restaurantKey = $(this).attr("data-restaurant-key");
+        var restaurantURL = "https://api.eatstreet.com/publicapi/v1/restaurant/" + restaurantKey +
+            "?access-token=a558a49dffe756bd";
+
+        $.ajax({
+            url: restaurantURL,
+            method: "GET"
+        }).done(function(response) {
+            console.log(response);
+            // $("#food-info-container").html('');
+            var foodCard = $("<div class='card'></div>");
+            var foodCardHeader = $("<div class='card-header'></div>");
+            var foodCardBody = $("<div class='card-body'></div>");
+            var foodCardRow = $("<div class='row'></div>");
+            var foodCardInnerRow = $("<div class='row'></div>");
+
+            var foodContentColumn = $("<div class='col'></div>");
+
+            var img = $("<img width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>")
+
+            // address of restaurant
+            var streetAddress = response.restaurant.streetAddress;
+            var restaurantCity = response.restaurant.city;
+            var restaurantState = response.restaurant.state;
+            var restaurantZip = response.restaurant.zip;
+            var foodTypes = response.restaurant.foodTypes;
+
+            var hours = "<br><br>Hours of Operation for the week: <br>" +
+                        "Monday: " + response.restaurant.hours.Monday[0] +
+                        "<br>Tuesday: " + response.restaurant.hours.Tuesday[0] +
+                        "<br>Wednesday: " + response.restaurant.hours.Wednesday[0] +
+                        "<br>Thursday: " + response.restaurant.hours.Thursday[0] +
+                        "<br>Friday: " + response.restaurant.hours.Friday[0] +
+                        "<br>Saturday: " + response.restaurant.hours.Saturday[0];
+
+            foodCardHeader.html(response.restaurant.name);
+            foodContentColumn.append(img);
+
+            foodContentColumn.append("<br>" + streetAddress + "<br>" + restaurantCity + ", " + restaurantState 
+                + " " + restaurantZip);
+
+            foodContentColumn.append("<br><br>Food Types: " + foodTypes);
+            foodContentColumn.append(hours);
+            
+            foodCardInnerRow.append(foodContentColumn);
+            foodCardBody.append(foodContentColumn);
+
+            foodCard.append(foodCardHeader);
+            foodCard.append(foodCardBody);
+
+            $(".primary-content").append(foodCard);
+        });
+    });    
+
+    //  Button for adding data
     $("#submit").on("click", function(event) {
         event.preventDefault();
         name = $("#name").val();
