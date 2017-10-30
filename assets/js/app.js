@@ -148,7 +148,7 @@ $(document).ready(function(){
         // contains the latitude and longitude of Evanston, IL
         // searches food within a 10 mile radius
         var searchURL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token="+ eStreetToken
-            + "&latitude=" + lat + "&longitude=" + lon + "&method=both&pickup-radius=5&search=" + foodName;
+            + "&latitude=" + lat + "&longitude=" + lon + "&method=both&pickup-radius=20&search=" + foodName;
         $.ajax({
             url: searchURL,
             type: 'GET'
@@ -280,7 +280,7 @@ $(document).ready(function(){
                 var img = $("<img width='100px' height='100px'>");
                 var contentColumn = $("<div class='col-md-10'></div>");
 
-                var restaurantAPIKey = response.restaurants[i].apiKey;
+                var restaurantAPIKey = data.restaurants[i].apiKey;
 
                 var button = $("<br><br><button class='food-info' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
 
@@ -293,10 +293,10 @@ $(document).ready(function(){
                 
                 contentColumn.html(data.restaurants[i]);
                 // name for that current restaurant
-                var restaurantName = response.restaurants[i].name;
-                var restaurantCity = response.restaurants[i].city;
-                var restaurantState = response.restaurants[i].state;
-                var restaurantZip = response.restaurants[i].zip;
+                var restaurantName = data.restaurants[i].name;
+                var restaurantCity = data.restaurants[i].city;
+                var restaurantState = data.restaurants[i].state;
+                var restaurantZip = data.restaurants[i].zip;
 
                 cardHeader.html(restaurantName);
                 imageColumn.append(img);
