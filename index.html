@@ -55,26 +55,22 @@
         <div class="jumbotron" style="background-color:#FF9933;">
             <div class="container text-center">
 
-                <img src= "http://st.depositphotos.com/1637056/3907/v/950/depositphotos_39073217-stock-illustration-man-with-binoculars.jpg" class="img-thumbnail animated zoomInDown" alt="binoculars-man" id="logo">
+                <img src= "assets/images/spectator.png" class="animated zoomInDown" alt="binoculars-man" id="logo">
                 <h1 class="text-center"><i aria-hidden="true"></i> The Hungry Spectator</h1><h6 class="text-center">Finding sporting events, concerts and food in your area</h6>
                 <hr class="bg-white">
                 <div class="row">
                     <div class="col-md-6 offset-md-4 form-inline">
-                        <div class="dropdown" id="dropdown">
-                            <select class="custom-select" aria-labelledby="dropdownMenu2" style="color: grey">
-                                <option selected>Select type</option>
-                                <option value="1">Team</option>
-                                <option value="2">Event</option>
-                                <option value="3">Artist</option>
-                                 <option value="3">Venue</option>
-                            </select>
-                        </div>
-                        <br> 
+                        <select class="custom-select eventEndpoint" aria-labelledby="dropdownMenu2" style="color: grey">
+                            <option value = "default" selected>Select type</option>
+                            <option value = "events">Event</option>
+                            <option value = "performers">Artist</option>
+                            <option value = "venues">Venue</option>
+                        </select>&nbsp;
                         <form action="">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="search-term" placeholder="Search. . .">
                                 <span class="input-group-addon" id="search-icon">
-                                    <button class="btn btn-outline-dark">
+                                    <button class="btn btn-outline-dark btn-search-event">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -99,11 +95,19 @@
                             Popular Sports
                         </div>
 
-                        <div class="card-body" style="background-color: #d3d3d3;">
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nfl">NFL</button>
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">NBA</button>
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="mlb">MLB</button>
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nhl">NHL</button>
+                        <div class="card-body text-center" style="background-color: #d3d3d3;">
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="nfl">NFL</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="nba">NBA</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="nhl">NHL</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="mlb">MLB</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="rock">Rock</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="pop">Pop</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="hip-hop">Hip-Hop</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="country">Country</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="concerts">Concerts</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="theater">Theater</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="ncaab">NCAAB</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="ncaaf">NCAAF</button>
                         </div>
                     </div>
                     <br>
