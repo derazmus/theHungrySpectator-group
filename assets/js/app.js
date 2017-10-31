@@ -31,10 +31,9 @@ $(document).ready(function(){
         alert('test');
     });
 
-
     /* Function to get user IP address */
     /* Help to find current location */
-    $.get("http://ipinfo.io", function(response) {
+    $.get("https://ipinfo.io", function(response) {
         userIP = response.ip;
         onLoadQuery = "https://api.seatgeek.com/2/events?geoip=" + userIP + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
         $.ajax({
@@ -187,7 +186,7 @@ $(document).ready(function(){
                 var imageColumn = $("<div class='col-md-2'></div>");
                 var img = $("<img class='img-fluid rounded'>");
                 var contentColumn = $("<div class='col-md-10'></div>");
-                var btnMoreInfo = $("<button class='btn btn-secondary btn-lg btn-block btn-more-info'>More Info</button>");
+                var btnMoreInfo = $("<button class='btn btn-secondary btn-sm btn-block btn-more-info'>More Info</button>");
 
                 if(eventType === "events"){
 
@@ -249,7 +248,7 @@ $(document).ready(function(){
 
                 var restaurantAPIKey = data.restaurants[i].apiKey;
 
-                var button = $("<br><br><button class='food-info btn btn-secondary btn-lg btn-block' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
+                var button = $("<br><button class='food-info btn btn-secondary btn-sm btn-block' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
 
                 cardHeader.html(data.restaurants[i].name);
                 if(data.restaurants[i].logoUrl !== null || data.restaurants[i].logoUrl !== '')
@@ -345,7 +344,7 @@ $(document).ready(function(){
                     foodCardContentColumn.append(foodTypes);
                     foodCardContentColumn.append(button);
 
-            var foodCardAnotherRow = $("<div class='row'></div>");  
+            var foodCardAnotherRow = $("<div class='row'></div>");
                 var col = $("<div class='col'></div>");
                 var heading = "<h4>Hours of Operation for the week</h4>";
                 var para = "<p><strong>Monday:</strong> " + response.restaurant.hours.Monday[0] +
