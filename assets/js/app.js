@@ -175,20 +175,20 @@ $(document).ready(function(){
             for(var i=0; i<recordLength; i++){
                     
                 var card = $("<div class='card'></div>");
-                var cardHeader = $("<div class='card-header'></div>");
-                var cardBody = $("<div class='card-body'></div>");
+                var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+                var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
                 var row = $("<div class='row'></div>");
                 var imageColumn = $("<div class='col-md-2'></div>");
                 var img = $("<img class='img-fluid rounded'>");
                 var contentColumn = $("<div class='col-md-10'></div>");
-                var btnMoreInfo = $("<button class='btn btn-default btn-sm btn-more-info'>More Info</button>");
+                var btnMoreInfo = $("<button class='btn btn-secondary btn-lg btn-block btn-more-info'>More Info</button>");
 
                 if(eventType === "events"){
 
                     if(data.events[i].performers[0].image !== null)
                         img.attr("src", data.events[i].performers[0].image);
                     else
-                        img.attr("src", "assets/images/spectator.png");
+                        img.attr("src", "assets/images/logo.jpeg");
                     
                     btnMoreInfo.attr("record-id", data.events[i].id);
                     cardHeader.html(data.events[i].short_title);
@@ -199,14 +199,14 @@ $(document).ready(function(){
                     if(data.performers[i].image !== null)
                         img.attr("src", data.performers[i].image);
                     else
-                        img.attr("src", "assets/images/spectator.png");
+                        img.attr("src", "assets/images/logo.jpeg");
                     
                     btnMoreInfo.attr("record-id", data.performers[i].id);
                     cardHeader.html(data.performers[i].name);
                     contentColumn.html(data.performers[i].type + "<br>");
                 }
                 else if(eventType === "venues"){
-                    img.attr("src", "assets/images/spectator.png");                    
+                    img.attr("src", "assets/images/logo.jpeg");                    
                     btnMoreInfo.attr("record-id", data.venues[i].id);
                     cardHeader.html(data.venues[i].name);
                     contentColumn.html(data.venues[i].city + "<br>");
@@ -249,7 +249,7 @@ $(document).ready(function(){
                 if(data.restaurants[i].logoUrl !== null || data.restaurants[i].logoUrl !== '')
                     img.attr('src', data.restaurants[i].logoUrl);
                 else
-                    img.attr('src', "assets/images/spectator.png");
+                    img.attr('src', "assets/images/logo.jpeg");
                 imageColumn.append(img);
                 
                 contentColumn.html(data.restaurants[i]);
