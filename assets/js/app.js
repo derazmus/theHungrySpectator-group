@@ -1,55 +1,126 @@
 
 $(document).ready(function(){
     
+    var lat = "";
+    var lon = "";
+
+    if(localStorage.getItem("lat") !== null && localStorage.getItem("lon") !== null){
+        lat = localStorage.getItem("lat");
+        lon = localStorage.getItem("lon");
+    }
+    else{
+        gioFindMe();
+    }
+
+    function gioFindMe(){
+        if(!navigator.geolocation){
+            console.log('Geo location is not supported in your browser');
+            return;
+        }
+        function success(position){
+            localStorage.setItem("lat", position.coords.latitude);
+            localStorage.setItem("lon", position.coords.longitude);
+        }
+        function error(){
+            console.log('Not Supported');
+        }
+        navigator.geolocation.getCurrentPosition(success, error);
+    }
+    /* Navigation search bar*/
+    $("#search-button").on('click',function(){
+        alert('test');
+    });
+
+
     /* Function to get user IP address */
     /* Help to find current location */
     $.get("http://ipinfo.io", function(response) {
-        //alert(response.ip);
+        userIP = response.ip;
+        onLoadQuery = "https://api.seatgeek.com/2/events?geoip=" + userIP + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+        $.ajax({
+            url: onLoadQuery,
+            type: 'GET'
+            })
+            .done(function(data) {
+            // console.log("Query " + onLoadQuery);
+            // console.log("Length " + data.events.length);
+            $(".page-heading").html("<h3>Popular Events Near <span class='event-heading'>" + data.meta.geolocation.display_name + "</span></h3><hr>");
+            displaySeatGeekEvent(data, "events");
+        });
     }, "jsonp");
 
+    var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
+    // console.log($(".eventEndpoint").val());
+    
+    /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
+    $(".container").on("change", ".eventEndpoint", function(){
+        eventEndpoint = $(".eventEndpoint").val();
+        $(".eventEndpoint").css("border", "none");
+    });
 
+    /* Remove border if any (to remove red border) */
+    $("#search-term").on("focus", function(){
+        $("#search-term").css("border", "none");
+    });
+    
+    /* Custome search event */
+    /* 1. Get the "eventEndpoint" variable (current selected option) -> */
+    /* 2. Get the search-box value */
+    /* 3. Perform validation (Both above values shouldn't be empty or null) */
+    /* 3. Generate and Send query. Display data on UI */
+    $(".container").on("click",".btn-search-event", function(){
+        event.preventDefault();
+        var eventName = $("#search-term").val();
+        var url = "https://api.seatgeek.com/2/";
+        if(eventEndpoint !== "default" && eventName !== ''){
+            url = url + eventEndpoint + "?" + "q=" + eventName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+            console.log("Btn Search : " + url);
+            $.ajax({
+                url: url,
+                type: 'GET'
+            })
+            .done(function(response) {
+                console.log(response);
+                $(".primary-content").html('');
+                /* Generic function to display data on UI */
+                /* First argument takes object return by ajax call. Second argument is endpoint type (i.e events, performers or venues)*/
+                displaySeatGeekEvent(response, eventEndpoint);
+            });
+        }
+        else{
+            /* If user doesn't select any option, this code updates border to red */
+            if(eventEndpoint === "default"){
+                $(".eventEndpoint").css("border", "2px solid red");
+            }
+            /* If user submit form without writing anything to search-box, this code updates border to red */
+            if(eventName === ""){
+                $("#search-term").css("border", "2px solid red");
+            }
+        }
+    });
+
+    /* Pre-built sports button event */
+    /* 1. Get the button's data value */
+    /* 2. Generate and Send query string */
+    /* 3. Display data on UI */
     $(".container").on("click",".btn-sports", function(){
         var sportName = $(this).attr("data-name");
-        var url = "https://api.seatgeek.com/2/events?q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+        var url = "https://api.seatgeek.com/2/events?geoip=" + userIP + "&q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+        console.log("Btn Search : " + url);
         $.ajax({
             url: url,
             type: 'GET'
         })
         .done(function(response) {
             console.log(response);
-            // console.log(response);
             $(".primary-content").html('');
-            for(var i=0; i<response.events.length; i++ ){
-                var card = $("<div class='card'></div>");
-                var cardHeader = $("<div class='card-header' style='background-color:#8bd6ba; color: white;'></div>");
-                var cardBody = $("<div class='card-body' style='background-color:#d3d3d3'></div>");
-                var row = $("<div class='row'></div>");
-
-                var innerRow = $("<div class='row'></div>");
-
-                var imageColumn = $("<div class='col-md-3'></div>");
-                var img = $("<img width='100px' height='100px' src='" + response.events[i].performers[0].image + "'>");
-                var contentColumn = $("<div class='col-md-9'></div>");
-
-                cardHeader.html(response.events[i].title);
-                imageColumn.append(img);
-                contentColumn.html(response.events[i].venue.address);
-                contentColumn.html(response.events[i].venue.display_location);
-
-                innerRow.append(imageColumn);
-                innerRow.append(contentColumn);
-
-                cardBody.append(innerRow);
-
-                card.append(cardHeader);
-                card.append(cardBody);
-                $(".primary-content").append(card);
-            }
+            /* Generic function to display data on UI */
+            /* First argument takes object return by ajax call. Second argument is endpoint type (i.e events, performers or venues)*/
+            displaySeatGeekEvent(response, "events");
         });
     });
 
     //food buttons
-
     $(".food-btn").on("click", function() {
         event.preventDefault();
         var eStreetToken = "a558a49dffe756bd";
@@ -59,34 +130,122 @@ $(document).ready(function(){
         // contains the latitude and longitude of Evanston, IL
         // searches food within a 10 mile radius
         var searchURL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token="+ eStreetToken
-            + "&latitude=42.0451&longitude=-87.6877&method=both&pickup-radius=20&search=" + foodName;
+            + "&latitude=" + lat + "&longitude=" + lon + "&method=both&pickup-radius=20&search=" + foodName;
         $.ajax({
             url: searchURL,
             type: 'GET'
         }).done(function (response) {
             console.log(response);
             $(".primary-content").html('');
-            for(var i = 0; i < response.restaurants.length; i++) {
+            var responseLength = response.restaurants.length;
+            /* Generic function to display eatStreet API's data to UI */
+            displayeatStreetEvent(response);
+        });
+    });
+
+    function displaySeatGeekEvent(data, eventType){
+        var recordLength = 0;
+        var obj;
+        if(eventType === "events"){
+            recordLength = data.events.length;
+        }
+        else if(eventType === "performers"){
+            recordLength = data.performers.length;
+        }
+        else if(eventType === "venues"){
+            recordLength = data.venues.length;
+        }
+        else{
+            recordLength = data.events.length;
+            eventType = "events";
+        }
+        if(recordLength > 0){
+            for(var i=0; i<recordLength; i++){
+                    
                 var card = $("<div class='card'></div>");
-                var cardHeader = $("<div class='card-header'></div>");
-                var cardBody = $("<div class='card-body'></div>");
+                var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+                var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
+                var row = $("<div class='row'></div>");
+                var imageColumn = $("<div class='col-md-2'></div>");
+                var img = $("<img class='img-fluid rounded'>");
+                var contentColumn = $("<div class='col-md-10'></div>");
+                var btnMoreInfo = $("<button class='btn btn-secondary btn-more-info'>More Info</button>");
+
+                if(eventType === "events"){
+
+                    if(data.events[i].performers[0].image !== null)
+                        img.attr("src", data.events[i].performers[0].image);
+                    else
+                        img.attr("src", "assets/images/logo.jpeg");
+                    
+                    btnMoreInfo.attr("record-id", data.events[i].id);
+                    cardHeader.html(data.events[i].short_title);
+                    contentColumn.html(data.events[i].venue.name + "<br>" + data.events[i].venue.address + "<br>");
+                }
+                else if(eventType === "performers"){
+
+                    if(data.performers[i].image !== null)
+                        img.attr("src", data.performers[i].image);
+                    else
+                        img.attr("src", "assets/images/logo.jpeg");
+                    
+                    btnMoreInfo.attr("record-id", data.performers[i].id);
+                    cardHeader.html(data.performers[i].name);
+                    contentColumn.html(data.performers[i].type + "<br>");
+                }
+                else if(eventType === "venues"){
+                    img.attr("src", "assets/images/logo.jpeg");                    
+                    btnMoreInfo.attr("record-id", data.venues[i].id);
+                    cardHeader.html(data.venues[i].name);
+                    contentColumn.html(data.venues[i].city + "<br>");
+                }
+                
+                contentColumn.append(btnMoreInfo);
+                imageColumn.append(img);
+                row.append(imageColumn);
+                row.append(contentColumn);
+
+                cardBody.append(row);
+                card.append(cardHeader);
+                card.append(cardBody);
+                $(".primary-content").append(card);
+            }
+        }
+        else{
+            noDataFound();
+        }
+    }
+    function displayeatStreetEvent(data){
+        if(data.restaurants.length > 0){
+            for(var i = 0; i < data.restaurants.length; i++) {
+                var card = $("<div class='card'></div>");
+                var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+                var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
                 var row = $("<div class='row'></div>");
 
                 var innerRow = $("<div class='row'></div>");
 
-                var imageColumn = $("<div class='col-md-3'></div>");
-                var img = $("<img width='100px' height='100px' src='" + response.restaurants[i].logoUrl + "'>");
-                var contentColumn = $("<div class='col-md-9'></div>");
+                var imageColumn = $("<div class='col-md-2'></div>");
+                var img = $("<img width='100px' height='100px'>");
+                var contentColumn = $("<div class='col-md-10'></div>");
 
-                var restaurantAPIKey = response.restaurants[i].apiKey;
+                var restaurantAPIKey = data.restaurants[i].apiKey;
 
-                var button = $("<br><br><button class='food-info' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
+                var button = $("<br><br><button class='food-info btn btn-secondary' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
 
+                cardHeader.html(data.restaurants[i].name);
+                if(data.restaurants[i].logoUrl !== null || data.restaurants[i].logoUrl !== '')
+                    img.attr('src', data.restaurants[i].logoUrl);
+                else
+                    img.attr('src', "assets/images/logo.jpeg");
+                imageColumn.append(img);
+                
+                contentColumn.html(data.restaurants[i]);
                 // name for that current restaurant
-                var restaurantName = response.restaurants[i].name;
-                var restaurantCity = response.restaurants[i].city;
-                var restaurantState = response.restaurants[i].state;
-                var restaurantZip = response.restaurants[i].zip;
+                var restaurantName = data.restaurants[i].name;
+                var restaurantCity = data.restaurants[i].city;
+                var restaurantState = data.restaurants[i].state;
+                var restaurantZip = data.restaurants[i].zip;
 
                 cardHeader.html(restaurantName);
                 imageColumn.append(img);
@@ -104,9 +263,36 @@ $(document).ready(function(){
 
                 $(".primary-content").append(card);
             }
-        });
-    });
+        }
+        else{
+            noDataFound();
+        }
+    }
 
+    function noDataFound(){
+        var card = $("<div class='card'></div>");
+        var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+        var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
+        var row = $("<div class='row'></div>");
+
+        var innerRow = $("<div class='row'></div>");
+
+        var imageColumn = $("<div class='col-md-2'></div>");
+        var img = $("<img width='100px' height='100px' src='assets/images/sorry.jpg'>");
+        var contentColumn = $("<div class='col-md-10'></div>");
+
+        cardHeader.html("Sorry, we couldn't find any data !");
+        imageColumn.append(img);
+        
+        innerRow.append(imageColumn);
+
+        cardBody.append(innerRow);
+
+        card.append(cardHeader);
+        card.append(cardBody);
+
+        $(".primary-content").append(card);
+    }
     $(document.body).on("click", ".food-info", function() {
         
         $(".primary-content").html('');
@@ -122,41 +308,45 @@ $(document).ready(function(){
             console.log(response);
             // $("#food-info-container").html('');
             var foodCard = $("<div class='card'></div>");
-            var foodCardHeader = $("<div class='card-header'></div>");
-            var foodCardBody = $("<div class='card-body'></div>");
-            var foodCardRow = $("<div class='row'></div>");
-            var foodCardInnerRow = $("<div class='row'></div>");
-
-            var foodContentColumn = $("<div class='col'></div>");
-
-            var img = $("<img width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>")
-
-            // address of restaurant
-            var streetAddress = response.restaurant.streetAddress;
-            var restaurantCity = response.restaurant.city;
-            var restaurantState = response.restaurant.state;
-            var restaurantZip = response.restaurant.zip;
-            var foodTypes = response.restaurant.foodTypes;
-
-            var hours = "<br><br>Hours of Operation for the week: <br>" +
-                        "Monday: " + response.restaurant.hours.Monday[0] +
-                        "<br>Tuesday: " + response.restaurant.hours.Tuesday[0] +
-                        "<br>Wednesday: " + response.restaurant.hours.Wednesday[0] +
-                        "<br>Thursday: " + response.restaurant.hours.Thursday[0] +
-                        "<br>Friday: " + response.restaurant.hours.Friday[0] +
-                        "<br>Saturday: " + response.restaurant.hours.Saturday[0];
-
-            foodCardHeader.html(response.restaurant.name);
-            foodContentColumn.append(img);
-
-            foodContentColumn.append("<br>" + streetAddress + "<br>" + restaurantCity + ", " + restaurantState 
-                + " " + restaurantZip);
-
-            foodContentColumn.append("<br><br>Food Types: " + foodTypes);
-            foodContentColumn.append(hours);
+            var foodCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+            var foodCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
             
-            foodCardInnerRow.append(foodContentColumn);
-            foodCardBody.append(foodContentColumn);
+            var foodCardRow = $("<div class='row'></div>");
+                var foodCardImageColumn = $("<div class='col-md-2'></div>");
+                    var img = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>");
+                var foodCardContentColumn = $("<div class='col-md-10'></div>");
+                    var streetAddress = $("<h4>" + response.restaurant.streetAddress + "</h4>");
+                    var restaurantCity = $("<h5>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</h5>");
+                    var foodTypes = $("<h5>" + response.restaurant.foodTypes + "</h5>");
+                    var foodCardInnerRow = $("<div class='row'></div>");
+                    var button = $("<a href='" + response.restaurant.url + "' class='btn btn-secondary' target='_blank'>Go To Website</a>");
+
+                    foodCardImageColumn.append(img);
+                    foodCardContentColumn.append(streetAddress);
+                    foodCardContentColumn.append(restaurantCity);
+                    foodCardContentColumn.append(foodTypes);
+                    foodCardContentColumn.append(button);
+
+            var foodCardAnotherRow = $("<div class='row'></div>");  
+                var col = $("<div class='col'></div>");
+                var heading = "<h4>Hours of Operation for the week</h4>";
+                var para = "<p><strong>Monday:</strong> " + response.restaurant.hours.Monday[0] +
+                            "<br><strong>Tuesday:</strong> " + response.restaurant.hours.Tuesday[0] +
+                            "<br><strong>Wednesday:</strong> " + response.restaurant.hours.Wednesday[0] +
+                            "<br><strong>Thursday:</strong> " + response.restaurant.hours.Thursday[0] +
+                            "<br><strong>Friday:</strong> " + response.restaurant.hours.Friday[0] +
+                            "<br><strong>Saturday:</strong> " + response.restaurant.hours.Saturday[0] + "</p>";
+
+            col.append(heading);
+            col.append(para);
+            foodCardAnotherRow.append(col);
+            foodCardHeader.html("<h3>" + response.restaurant.name + "</h3>");
+    
+            foodCardRow.append(foodCardImageColumn);
+            foodCardRow.append(foodCardContentColumn);
+
+            foodCardBody.append(foodCardRow);
+            foodCardBody.append(foodCardAnotherRow);
 
             foodCard.append(foodCardHeader);
             foodCard.append(foodCardBody);

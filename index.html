@@ -15,15 +15,18 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
         <!--firebase-->
-       <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+       <!--<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>-->
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
+    <body>
         <nav class="navbar navbar-expand-lg navbar" id=navbar-whole style="background-color: #8bd6ba;">
             <div class="container">
+<<<<<<< HEAD
                 <h1>
                 <img src="assets/images/binoculars.png" id="smallbinoculars">
+
                 <a class="navbar-brand" href="#" style="color: black;">The Hungry Spectator</a></h1>
 
 
@@ -49,26 +52,23 @@
         <div class="jumbotron" style="background-color:#FF9933;">
             <div class="container text-center">
 
+
                 <img src= "assets/images/logo.png" class="img-thumbnail animated zoomInDown" alt="binoculars-man" id="logo">
                 <h1 class="text-center"><i aria-hidden="true"></i> The Hungry Spectator</h1><h6 class="text-center">Finding sporting events, concerts and food in your area</h6>
                 <hr class="bg-white">
                 <div class="row">
                     <div class="col-md-6 offset-md-4 form-inline">
-                        <div class="dropdown" id="dropdown">
-                            <select class="custom-select" aria-labelledby="dropdownMenu2" style="color: grey">
-                                <option selected>Select type</option>
-                                <option value="1">Team</option>
-                                <option value="2">Event</option>
-                                <option value="3">Artist</option>
-                                 <option value="3">Venue</option>
-                            </select>
-                        </div>
-                        <br> 
+                        <select class="custom-select eventEndpoint" aria-labelledby="dropdownMenu2" style="color: grey">
+                            <option value = "default" selected>Select type</option>
+                            <option value = "events">Event</option>
+                            <option value = "performers">Artist</option>
+                            <option value = "venues">Venue</option>
+                        </select>&nbsp;
                         <form action="">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="search-term" placeholder="Search. . .">
                                 <span class="input-group-addon" id="search-icon">
-                                    <button class="btn btn-outline-dark">
+                                    <button class="btn btn-outline-dark btn-search-event">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -90,14 +90,22 @@
                 <aside class="col-md-3 primary-sidebar-content">
                     <div class="card">
                         <div class="card-header" style= "color: white;background-color: #8bd6ba;">
-                            Popular Sports
+                            Popular Events
                         </div>
 
-                        <div class="card-body" style="background-color: #d3d3d3;">
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nfl">NFL</button>
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nba">NBA</button>
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="mlb">MLB</button>
-                            <button class="btn btn-secondary btn-sports btn-sm" data-name="nhl">NHL</button>
+                        <div class="card-body text-center" style="background-color: #d3d3d3;">
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="nfl">NFL</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="nba">NBA</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="nhl">NHL</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="mlb">MLB</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="rock">Rock</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="pop">Pop</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="hip-hop">Hip-Hop</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="country">Country</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="concerts">Concerts</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="theater">Theater</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="ncaab">NCAAB</button>
+                            <button class="btn btn-primary btn-sm btn-sports" data-name="ncaaf">NCAAF</button>
                         </div>
                     </div>
                     <br>
@@ -126,8 +134,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col text-center">
-                       <p> Created by: Denise, Jeff, Kalpesh, Kelvin</p>
-                       <p> <a href="https://derazmus.github.io/theHungrySpectator-group/">Git Hub page</a></p>
+                        <p> Created by: Denise, Jeff, Kalpesh, Kelvin </p>
+                        <a href="https://derazmus.github.io/theHungrySpectator-group/">Github pages</a>
                     </div>
                 </div>
             </div>
