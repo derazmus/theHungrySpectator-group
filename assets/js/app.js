@@ -321,7 +321,7 @@ $(document).ready(function(){
                     var restaurantCity = $("<h5>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</h5>");
                     var foodTypes = $("<h5>" + response.restaurant.foodTypes + "</h5>");
                     var foodCardInnerRow = $("<div class='row'></div>");
-                    var button = $("<a href='" + response.restaurant.url + "' class='btn btn-primary' target='_blank'>Go To Website</a>");
+                    var button = $("<a href='" + response.restaurant.url + "' class='btn btn-secondary' target='_blank'>Go To Website</a>");
 
                     foodCardImageColumn.append(img);
                     foodCardContentColumn.append(streetAddress);
