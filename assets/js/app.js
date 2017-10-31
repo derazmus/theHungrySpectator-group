@@ -20,7 +20,12 @@ $(document).ready(function(){
         }
         navigator.geolocation.getCurrentPosition(success, error);
     }
-    
+    /* Navigation search bar*/
+    $("#search-button").on('click',function(){
+        alert('test');
+    });
+
+
     /* Function to get user IP address */
     /* Help to find current location */
     $.get("http://ipinfo.io", function(response) {
