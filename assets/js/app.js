@@ -46,23 +46,7 @@ $(document).ready(function(){
         });
     }, "jsonp");
 
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyBaSQnTDSw5lBSEttOIWKzI3I4g1wjlHz0",
-        authDomain: "thehungryspectator.firebaseapp.com",
-        databaseURL: "https://thehungryspectator.firebaseio.com",
-        projectId: "thehungryspectator",
-        storageBucket: "thehungryspectator.appspot.com",
-        messagingSenderId: "95566664488"
-    };
-    firebase.initializeApp(config);
-    //a variable to referance the database
-    var database = firebase.database();
-    //variables from form
-    var name = "";
-    var address = "";
-    var phone = "";
-    var email = "";
+   
 
     var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
     
@@ -184,7 +168,7 @@ $(document).ready(function(){
                 var imageColumn = $("<div class='col-md-2'></div>");
                 var img = $("<img class='img-fluid rounded'>");
                 var contentColumn = $("<div class='col-md-10'></div>");
-                var btnMoreInfo = $("<button class='btn btn-secondary btn-sm btn-block btn-more-info'>More Info</button>");
+                var btnMoreInfo = $("<button class='btn btn-secondary btn-more-info'>More Info</button>");
 
                 if(eventType === "events"){
 
@@ -245,8 +229,7 @@ $(document).ready(function(){
                 var contentColumn = $("<div class='col-md-10'></div>");
 
                 var restaurantAPIKey = data.restaurants[i].apiKey;
-
-                var button = $("<br><button class='food-info btn btn-secondary btn-sm btn-block' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
+                var button = $("<br><br><button class='food-info btn btn-secondary' data-restaurant-key='"+ restaurantAPIKey +"'>More Info</button>");
 
                 cardHeader.html(data.restaurants[i].name);
                 if(data.restaurants[i].logoUrl !== null || data.restaurants[i].logoUrl !== '')
@@ -288,17 +271,17 @@ $(document).ready(function(){
     /* To display proper message when API doesn't have any record */
     function noDataFound(){
         var card = $("<div class='card'></div>");
-        var cardHeader = $("<div class='card-header'></div>");
-        var cardBody = $("<div class='card-body'></div>");
+        var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+        var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
         var row = $("<div class='row'></div>");
 
         var innerRow = $("<div class='row'></div>");
 
         var imageColumn = $("<div class='col-md-2'></div>");
-        var img = $("<img width='100px' height='100px' src='assets/images/sorry.png'>");
+        var img = $("<img width='100px' height='100px' src='assets/images/sorry.jpg'>");
         var contentColumn = $("<div class='col-md-10'></div>");
 
-        cardHeader.html("Sorry ! We couldn't find any data !");
+        cardHeader.html("Sorry, we couldn't find any data !");
         imageColumn.append(img);
         
         innerRow.append(imageColumn);
@@ -336,7 +319,7 @@ $(document).ready(function(){
             var restaurantCity = $("<h5>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</h5>");
             var foodTypes = $("<h5>" + response.restaurant.foodTypes + "</h5>");
             var foodCardInnerRow = $("<div class='row'></div>");
-            var button = $("<a href='" + response.restaurant.url + "' class='btn btn-primary' target='_blank'>Go To Website</a>");
+            var button = $("<a href='" + response.restaurant.url + "' class='btn btn-secondary' target='_blank'>Go To Website</a>");
 
             foodCardImageColumn.append(img);
             foodCardContentColumn.append(streetAddress);
@@ -370,28 +353,5 @@ $(document).ready(function(){
 
             $(".primary-content").append(foodCard);
         });
-    });
-
-    //  Button for adding data
-    $("#submit").on("click", function(event) {
-        event.preventDefault();
-        name = $("#name").val();
-        address = $("#address").val();
-        phone = $("#phone").val();
-        email = $("#email").val();
-
-        // Clears all of the text-boxes
-        $("#name").val("");
-        $("#address").val("");
-        $("#phone").val("");
-        $("#email").val("");
-        console.log(name)
-        //pushes to database
-        database.ref().push({
-            name: name,
-            address: address,
-            phone: phone,
-            email: email
-       });
     });
 });
