@@ -122,15 +122,17 @@ $(document).ready(function(){
         });
     });
 
-    //food buttons
+    /* food buttons */
     $(".food-btn").on("click", function() {
         event.preventDefault();
+
+        /* eatStreetToken that will allow us to access the API */
         var eStreetToken = "a558a49dffe756bd";
-        var zkey = "312c4d4c34ef87c50671cf222cece7f5";
+        
+        /* grabs the data-name and stores it into the variable foodName */
         var foodName = $(this).attr("data-name");
 
-        // contains the latitude and longitude of Evanston, IL
-        // searches food within a 10 mile radius
+        /* searches food within a 20 mile radius of the user's latitude and longitude */
         var searchURL = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token="+ eStreetToken
             + "&latitude=" + lat + "&longitude=" + lon + "&method=both&pickup-radius=20&search=" + foodName;
         $.ajax({
@@ -138,8 +140,12 @@ $(document).ready(function(){
             type: 'GET'
         }).done(function (response) {
             console.log(response);
+
+            /* empty the primary content */
             $(".primary-content").html('');
+
             var responseLength = response.restaurants.length;
+
             /* Generic function to display eatStreet API's data to UI */
             displayeatStreetEvent(response);
         });
@@ -295,10 +301,14 @@ $(document).ready(function(){
 
         $(".primary-content").append(card);
     }
+
+    /* for all buttons that have the class food-info on the page ... */
     $(document.body).on("click", ".food-info", function() {
         
+        /* empty the primary content on the page */
         $(".primary-content").html('');
 
+        /* grab the restaurant key of that button and store it into the variable */
         var restaurantKey = $(this).attr("data-restaurant-key");
         var restaurantURL = "https://api.eatstreet.com/publicapi/v1/restaurant/" + restaurantKey +
             "?access-token=a558a49dffe756bd";
@@ -307,12 +317,14 @@ $(document).ready(function(){
             url: restaurantURL,
             method: "GET"
         }).done(function(response) {
-            console.log(response);
-            // $("#food-info-container").html('');
+            
+            /* create the card that we want on the page and 
+                append everything together */
             var foodCard = $("<div class='card'></div>");
             var foodCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
             var foodCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
             
+            /* first row of the card */
             var foodCardRow = $("<div class='row'></div>");
                 var foodCardImageColumn = $("<div class='col-md-2'></div>");
                     var img = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>");
@@ -329,6 +341,7 @@ $(document).ready(function(){
                     foodCardContentColumn.append(foodTypes);
                     foodCardContentColumn.append(button);
 
+            /* second row of the card */
             var foodCardAnotherRow = $("<div class='row'></div>");  
                 var col = $("<div class='col'></div>");
                 var heading = "<h4>Hours of Operation for the week</h4>";
@@ -353,9 +366,8 @@ $(document).ready(function(){
             foodCard.append(foodCardHeader);
             foodCard.append(foodCardBody);
 
+            /* append the whole card onto the primary content */
             $(".primary-content").append(foodCard);
         });
-    });
-
-   
+    });  
 });
