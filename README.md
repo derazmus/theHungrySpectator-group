@@ -1,30 +1,30 @@
 
-## The Hungry Spectator
+#The Hungry Spectator
 
 https://derazmus.github.io/theHungrySpectator-group/
 
-# Team Members:
+## Team Members:
 
 + Denise Erazmus - Frontend/Firebase/Animate.css
 + Kalpesh Patel - Backend- SeatGeek API, Search buttons, quick link buttons for events.
 + Kelvin Tiongson - Backend - EatStreet API, quick link buttons for resturants.
 + Jeff Ostrom - Backend - SeatGeek API, more info buttons for events. 
 
-# Problem: 
+## Problem: 
 
 + You are going to an event, concert, sporting event etc and you are hungry.
 
-# Description: 
+## Description: 
 
 + Provide one location in which you can locate an event, concert, sporting event etc and food. 
 
-# APIs Used:
+## APIs Used:
 
 + SeatGeek
 + StreetEat
 
 
-# Technology used:
+## Technology used:
 
 + CSS/HTML
 + Bootstrap 4
@@ -34,7 +34,7 @@ https://derazmus.github.io/theHungrySpectator-group/
 + Firebase
 + Cookies
 
-# Future Developement:
+## Future Developement:
 
 + Add Map and Weather via Google Maps and Dark Sky API.
 + Show on page tickets avaliable rather  than going to link.
