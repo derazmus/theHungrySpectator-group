@@ -4,16 +4,22 @@ $(document).ready(function(){
     var lat = "";
     var lon = "";
 
-    gioFindMe();
+    if(localStorage.getItem("lat") !== null && localStorage.getItem("lon") !== null){
+        lat = localStorage.getItem("lat");
+        lon = localStorage.getItem("lon");
+    }
+    else{
+        gioFindMe();
+    }
+
     function gioFindMe(){
         if(!navigator.geolocation){
             console.log('Geo location is not supported in your browser');
             return;
         }
         function success(position){
-            lat = position.coords.latitude;
-            lon = position.coords.longitude;
-            console.log(lat + ' ' + lon);
+            localStorage.setItem("lat", position.coords.latitude);
+            localStorage.setItem("lon", position.coords.longitude);
         }
         function error(){
             console.log('Not Supported');
@@ -317,39 +323,43 @@ $(document).ready(function(){
             var foodCard = $("<div class='card'></div>");
             var foodCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
             var foodCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
-            var foodCardRow = $("<div class='row'></div>");
-            var foodCardInnerRow = $("<div class='row'></div>");
-
-            var foodContentColumn = $("<div class='col'></div>");
-
-            var img = $("<img width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>")
-
-            // address of restaurant
-            var streetAddress = response.restaurant.streetAddress;
-            var restaurantCity = response.restaurant.city;
-            var restaurantState = response.restaurant.state;
-            var restaurantZip = response.restaurant.zip;
-            var foodTypes = response.restaurant.foodTypes;
-
-            var hours = "<br><br>Hours of Operation for the week: <br>" +
-                        "Monday: " + response.restaurant.hours.Monday[0] +
-                        "<br>Tuesday: " + response.restaurant.hours.Tuesday[0] +
-                        "<br>Wednesday: " + response.restaurant.hours.Wednesday[0] +
-                        "<br>Thursday: " + response.restaurant.hours.Thursday[0] +
-                        "<br>Friday: " + response.restaurant.hours.Friday[0] +
-                        "<br>Saturday: " + response.restaurant.hours.Saturday[0];
-
-            foodCardHeader.html(response.restaurant.name);
-            foodContentColumn.append(img);
-
-            foodContentColumn.append("<br>" + streetAddress + "<br>" + restaurantCity + ", " + restaurantState 
-                + " " + restaurantZip);
-
-            foodContentColumn.append("<br><br>Food Types: " + foodTypes);
-            foodContentColumn.append(hours);
             
-            foodCardInnerRow.append(foodContentColumn);
-            foodCardBody.append(foodContentColumn);
+            var foodCardRow = $("<div class='row'></div>");
+                var foodCardImageColumn = $("<div class='col-md-2'></div>");
+                    var img = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>");
+                var foodCardContentColumn = $("<div class='col-md-10'></div>");
+                    var streetAddress = $("<h4>" + response.restaurant.streetAddress + "</h4>");
+                    var restaurantCity = $("<h5>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</h5>");
+                    var foodTypes = $("<h5>" + response.restaurant.foodTypes + "</h5>");
+                    var foodCardInnerRow = $("<div class='row'></div>");
+                    var button = $("<a href='" + response.restaurant.url + "' class='btn btn-primary' target='_blank'>Go To Website</a>");
+
+                    foodCardImageColumn.append(img);
+                    foodCardContentColumn.append(streetAddress);
+                    foodCardContentColumn.append(restaurantCity);
+                    foodCardContentColumn.append(foodTypes);
+                    foodCardContentColumn.append(button);
+
+            var foodCardAnotherRow = $("<div class='row'></div>");  
+                var col = $("<div class='col'></div>");
+                var heading = "<h4>Hours of Operation for the week</h4>";
+                var para = "<p><strong>Monday:</strong> " + response.restaurant.hours.Monday[0] +
+                            "<br><strong>Tuesday:</strong> " + response.restaurant.hours.Tuesday[0] +
+                            "<br><strong>Wednesday:</strong> " + response.restaurant.hours.Wednesday[0] +
+                            "<br><strong>Thursday:</strong> " + response.restaurant.hours.Thursday[0] +
+                            "<br><strong>Friday:</strong> " + response.restaurant.hours.Friday[0] +
+                            "<br><strong>Saturday:</strong> " + response.restaurant.hours.Saturday[0] + "</p>";
+
+            col.append(heading);
+            col.append(para);
+            foodCardAnotherRow.append(col);
+            foodCardHeader.html("<h3>" + response.restaurant.name + "</h3>");
+    
+            foodCardRow.append(foodCardImageColumn);
+            foodCardRow.append(foodCardContentColumn);
+
+            foodCardBody.append(foodCardRow);
+            foodCardBody.append(foodCardAnotherRow);
 
             foodCard.append(foodCardHeader);
             foodCard.append(foodCardBody);
