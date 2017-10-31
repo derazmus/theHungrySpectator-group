@@ -1,5 +1,5 @@
 
-#The Hungry Spectator
+# The Hungry Spectator
 
 https://derazmus.github.io/theHungrySpectator-group/
 
@@ -14,14 +14,24 @@ https://derazmus.github.io/theHungrySpectator-group/
 
 + You are going to an event, concert, sporting event etc and you are hungry.
 
+## Solution:
+
++ Uses SeatGeek API to locate various events, sporting events, concerts etc. Upon inital load shows events based on Geo-ID. Dynamically creates containers when quick link button for event type are selected. Upon click of more info button, gives you more details of event along with a link to tickets. 
+
++ Uses SeatGeek API to locate events, sporting events, concerts etc when using search box. Search box will not allow user to submit unless an event type and a search parameter is entered. 
+
++ Uses EatStreet API to locate resturants. Can select type of food ( i.e. Breakfast, Lunch and Dinner) using quick link buttons. Dynamically creates containers when button is select with reesturant info. Upon click of more info button, gives you more details about resturant including location and times open. 
+
++ Images are generated off of both APIs and if image is not avaliable a placeholder image is used. 
+
 ## Description: 
 
 + Provide one location in which you can locate an event, concert, sporting event etc and food. 
 
 ## APIs Used:
 
-+ SeatGeek
-+ StreetEat
++ SeatGeek http://platform.seatgeek.com/
++ EatStreet https://developers.eatstreet.com/
 
 
 ## Technology used:
