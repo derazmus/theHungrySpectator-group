@@ -7,7 +7,11 @@
 .jumbotron{
 	border-radius: 0;
 }
-
+.custom-select{
+	border-radius: 0;
+	height: 50px;
+	width: 100%;
+}
 /*#logo{
 	max-height: 200px;
 	max-width: 200px;
