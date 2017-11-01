@@ -332,7 +332,6 @@ $(document).ready(function(){
                     var streetAddress = $("<h4>" + response.restaurant.streetAddress + "</h4>");
                     var restaurantCity = $("<h5>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</h5>");
                     var foodTypes = $("<h5>" + response.restaurant.foodTypes + "</h5>");
-                    var foodCardInnerRow = $("<div class='row'></div>");
                     var button = $("<a href='" + response.restaurant.url + "' class='btn btn-secondary' target='_blank'>Go To Website</a>");
 
                     foodCardImageColumn.append(img);
@@ -344,7 +343,7 @@ $(document).ready(function(){
             /* second row of the card */
             var foodCardAnotherRow = $("<div class='row'></div>");  
                 var col = $("<div class='col'></div>");
-                var heading = "<h4>Hours of Operation for the week</h4>";
+                var heading = "<br><h4>Hours of Operation for the week</h4>";
                 var para = "<p><strong>Monday:</strong> " + response.restaurant.hours.Monday[0] +
                             "<br><strong>Tuesday:</strong> " + response.restaurant.hours.Tuesday[0] +
                             "<br><strong>Wednesday:</strong> " + response.restaurant.hours.Wednesday[0] +
@@ -370,4 +369,69 @@ $(document).ready(function(){
             $(".primary-content").append(foodCard);
         });
     });  
+
+    $(document.body).on("click", ".btn-more-info", function() {
+
+        /* empty the primary content on the page */
+        $(".primary-content").html('');
+
+        /* grab the event id and store it to the value */
+        var eventID = $(this).attr("record-id");
+
+        /* url for the specific seat geek event */
+        var sgEventURL = "https://api.seatgeek.com/2/events/" + eventID + "?client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+
+        $.ajax({
+            url: sgEventURL,
+            method: "GET"
+        }).done(function(response){
+            console.log(response);
+
+            /* storing the data into variables */
+            var eventName = response.title;
+
+            var eventCard = $("<div class='card'></div>");
+            var eventCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+            var eventCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>")
+
+            /* first row of the card */
+            var eventCardRow = $("<div class='row'></div>");
+                var eventCardImageColumn = $("<div class='col-md-2'></div>");
+                    var eventImg = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.performers[0].image + "'>");
+                var eventCardContentColumn = $("<div class='col-md-10'></div>");
+                    var eventStreetAddress = $("<h4>" + response.venue.address + "</h4>");
+                    var eventCity = $("<h5>" + response.venue.extended_address + "</h5>");
+                    var eventButton = $("<a href='" + response.url + "' class='btn btn-secondary' target='_blank'>Grab Tickets!</a>");
+
+            /* second row of the card */
+            var eventCardAnotherRow = $("<div class='row'></div>"); 
+                var col = $("<div class='col'></div>");
+                var heading = "<br><h4>Price Information</h4>";
+                var para = "<p><strong>Average Price: </strong> " + "$" + response.stats.average_price +
+                            "<br><strong>Lowest Price: </strong> " + "$" + response.stats.lowest_price +
+                            "<br><strong>Highest Price: </strong> " + "$" + response.stats.highest_price + "</p>";
+
+            /* appending everything into the card */
+            col.append(heading);
+            col.append(para);
+            eventCardAnotherRow.append(col);
+
+            eventCardImageColumn.append(eventImg);
+            eventCardContentColumn.append(eventStreetAddress);
+            eventCardContentColumn.append(eventCity);
+            eventCardContentColumn.append(eventButton);
+
+            eventCardRow.append(eventCardImageColumn);
+            eventCardRow.append(eventCardContentColumn);
+
+            eventCardHeader.append(eventName);
+            eventCardBody.append(eventCardRow);
+            eventCardBody.append(eventCardAnotherRow);
+            eventCard.append(eventCardHeader);
+            eventCard.append(eventCardBody);
+
+            /* add the event card into the primary content container */
+            $(".primary-content").html(eventCard);
+        });
+    });
 });
