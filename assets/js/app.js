@@ -1,53 +1,72 @@
 
 $(document).ready(function(){
     
+    /* Global Variables */
     var lat = "";
     var lon = "";
+    var onLoadSeatGeekQuery = "";
+    var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
 
-    if(localStorage.getItem("lat") !== null && localStorage.getItem("lon") !== null){
-        lat = localStorage.getItem("lat");
-        lon = localStorage.getItem("lon");
+    /* If your session is still running, don't ask for Geolocation */
+    if(sessionStorage.getItem("lat") !== null && sessionStorage.getItem("lon") !== null){
+        lat = sessionStorage.getItem("lat");
+        lon = sessionStorage.getItem("lon");
+        onLoadSeatGeekQuery = "https://api.seatgeek.com/2/events?lat=" + lat + "&lon=" + lon + "&range=20mi&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+        seatGeekApiCall(onLoadSeatGeekQuery);
     }
+    /* Else, ask for Geolocation */
     else{
         geoFindMe();
     }
 
+    /* Function to get/ask Geolocation of user */
     function geoFindMe(){
+        /* If Geolocation is not supported in user's browser, set up default value for "latitude" and "longitude" */
         if(!navigator.geolocation){
-            console.log('Geo location is not supported in your browser');
+            sessionStorage.setItem("lat", "41.881832");
+            sessionStorage.setItem("lon", "-87.623177");
+            lat = sessionStorage.getItem("lat");
+            lon = sessionStorage.getItem("lon");
+            onLoadSeatGeekQuery = "https://api.seatgeek.com/2/events?lat=" + lat + "&lon=" + lon + "&range=" + 20 +  "mi&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+            /* Function to display data on home page (with default geolocation) */
+            seatGeekApiCall(onLoadSeatGeekQuery);
             return;
         }
+        /* If user click on "Allow", save "latitude" and "longitude" to session storage of your browser */
         function success(position){
-            localStorage.setItem("lat", position.coords.latitude);
-            localStorage.setItem("lon", position.coords.longitude);
+            sessionStorage.setItem("lat", position.coords.latitude);
+            sessionStorage.setItem("lon", position.coords.longitude);
+            lat = sessionStorage.getItem("lat");
+            lon = sessionStorage.getItem("lon");
+            onLoadSeatGeekQuery = "https://api.seatgeek.com/2/events?lat=" + lat + "&lon=" + lon + "&range=20mi&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+            /* Function to display data on home page (with user's geolocation) */
+            seatGeekApiCall(onLoadSeatGeekQuery);
         }
+        /* If user click on "Block", save default "latitude" and "longitude" to session storage of your browser */
         function error(){
-            console.log("Error");
+            sessionStorage.setItem("lat", "41.881832");
+            sessionStorage.setItem("lon", "-87.623177");
+            lat = sessionStorage.getItem("lat");
+            lon = sessionStorage.getItem("lon");
+            onLoadSeatGeekQuery = "https://api.seatgeek.com/2/events?lat=" + lat + "&lon=" + lon + "&range=20mi&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+            /* Function to display data on home page (with default geolocation) */
+            seatGeekApiCall(onLoadSeatGeekQuery);
         }
         navigator.geolocation.getCurrentPosition(success, error);
     }
-    /* Navigation search bar*/
-    $("#search-button").on('click',function(){
-        alert('test');
-    });
-
-    /* Function to get user IP address */
-    /* Help to find current location */
-    $.get("https://ipinfo.io", function(response) {
-        userIP = response.ip;
-        onLoadQuery = "https://api.seatgeek.com/2/events?geoip=" + userIP + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+    
+    /* Function to display data on home page based on user's geolocation */
+    function seatGeekApiCall(query){
         $.ajax({
-            url: onLoadQuery,
+            url: query,
             type: 'GET'
             })
             .done(function(data) {
             $(".page-heading").html("<h3>Popular Events Near <span class='event-heading'>" + data.meta.geolocation.display_name + "</span></h3><hr>");
             displaySeatGeekEvent(data, "events");
         });
-    }, "jsonp");
+    }
 
-    var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
-    
     /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
     $(".container").on("change", ".eventEndpoint", function(){
         eventEndpoint = $(".eventEndpoint").val();
@@ -67,21 +86,22 @@ $(document).ready(function(){
         5. Display data on UI */
     $(".container").on("click",".btn-search-event", function(){
         event.preventDefault();
+        eventEndpoint = $(".eventEndpoint").val();
         var eventName = $("#search-term").val();
         var url = "https://api.seatgeek.com/2/";
         if(eventEndpoint !== "default" && eventName !== ''){
-            url = url + eventEndpoint + "?" + "q=" + eventName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
-            console.log("Btn Search : " + url);
+            url = url + eventEndpoint + "?" + "q=" + eventName + "&lat=" + lat + "&lon=" + lon + "&range=20mi&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
             $.ajax({
                 url: url,
                 type: 'GET'
             })
-            .done(function(response) {
-                console.log(response);
+            .done(function(response){
                 $(".primary-content").html('');
                 /* Generic function to display data on UI */
                 /* First argument takes object return by ajax call. Second argument is endpoint type (i.e events, performers or venues)*/
                 displaySeatGeekEvent(response, eventEndpoint);
+                $("#search-term").val('');
+                $(".eventEndpoint").val("default");
             });
         }
         else{
@@ -102,14 +122,12 @@ $(document).ready(function(){
         3. Display data on UI */
     $(".container").on("click",".btn-sports", function(){
         var sportName = $(this).attr("data-name");
-        var url = "https://api.seatgeek.com/2/events?geoip=" + userIP + "&q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
-        console.log("Btn Search : " + url);
+        var url = "https://api.seatgeek.com/2/events?lat=" + lat + "&lon=" + lon + "&range=20mi&q=" + sportName + "&client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
         $.ajax({
             url: url,
             type: 'GET'
         })
         .done(function(response) {
-            console.log(response);
             $(".primary-content").html('');
             /* Generic function to display data on UI */
             /* First argument takes object return by ajax call. Second argument is endpoint type (i.e events, performers or venues)*/
@@ -120,10 +138,8 @@ $(document).ready(function(){
     /* food buttons */
     $(".food-btn").on("click", function() {
         event.preventDefault();
-
         /* eatStreetToken that will allow us to access the API */
         var eStreetToken = "a558a49dffe756bd";
-        
         /* grabs the data-name and stores it into the variable foodName */
         var foodName = $(this).attr("data-name");
 
@@ -134,13 +150,9 @@ $(document).ready(function(){
             url: searchURL,
             type: 'GET'
         }).done(function (response) {
-            console.log(response);
-
             /* empty the primary content */
             $(".primary-content").html('');
-
             var responseLength = response.restaurants.length;
-
             /* Generic function to display eatStreet API's data to UI */
             displayeatStreetEvent(response);
         });
@@ -164,7 +176,6 @@ $(document).ready(function(){
         }
         if(recordLength > 0){
             for(var i=0; i<recordLength; i++){
-                    
                 var card = $("<div class='card'></div>");
                 var cardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
                 var cardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
@@ -182,8 +193,10 @@ $(document).ready(function(){
                         img.attr("src", "assets/images/logo.jpeg");
                     
                     btnMoreInfo.attr("record-id", data.events[i].id);
-                    cardHeader.html(data.events[i].short_title);
-                    contentColumn.html(data.events[i].venue.name + "<br>" + data.events[i].venue.address + "<br>");
+                    btnMoreInfo.attr("event-type", eventType);
+                    cardHeader.html(data.events[i].title);
+                    contentColumn.html(data.events[i].venue.name + " - " + moment(data.events[i].datetime_local).format("MMMM Do YYYY, h:mm:ss a") + 
+                    "<br>" + data.events[i].venue.address + ", " + data.events[i].venue.extended_address + "<br>");
                 }
                 else if(eventType === "performers"){
 
@@ -193,12 +206,14 @@ $(document).ready(function(){
                         img.attr("src", "assets/images/logo.jpeg");
                     
                     btnMoreInfo.attr("record-id", data.performers[i].id);
+                    btnMoreInfo.attr("event-type", eventType);
                     cardHeader.html(data.performers[i].name);
                     contentColumn.html(data.performers[i].type + "<br>");
                 }
                 else if(eventType === "venues"){
                     img.attr("src", "assets/images/logo.jpeg");                    
                     btnMoreInfo.attr("record-id", data.venues[i].id);
+                    btnMoreInfo.attr("event-type", eventType);
                     cardHeader.html(data.venues[i].name);
                     contentColumn.html(data.venues[i].city + "<br>");
                 }
@@ -245,14 +260,16 @@ $(document).ready(function(){
                 contentColumn.html(data.restaurants[i]);
                 // name for that current restaurant
                 var restaurantName = data.restaurants[i].name;
+                var restaurantAddress = data.restaurants[i].streetAddress;
                 var restaurantCity = data.restaurants[i].city;
                 var restaurantState = data.restaurants[i].state;
                 var restaurantZip = data.restaurants[i].zip;
+                var restaurantPhone = data.restaurants[i].phone;
 
                 cardHeader.html(restaurantName);
                 imageColumn.append(img);
                 
-                contentColumn.html(restaurantCity + ", " + restaurantState + " " + restaurantZip);
+                contentColumn.html(restaurantAddress + "<br>" + restaurantCity + ", " + restaurantState + " " + restaurantZip + "<br>" + restaurantPhone);
                 contentColumn.append(button);
 
                 innerRow.append(imageColumn);
@@ -300,63 +317,70 @@ $(document).ready(function(){
 
     /* for all buttons that have the class food-info on the page ... */
     $(document.body).on("click", ".food-info", function() {
-        
         /* empty the primary content on the page */
         $(".primary-content").html('');
-
         /* grab the restaurant key of that button and store it into the variable */
         var restaurantKey = $(this).attr("data-restaurant-key");
         var restaurantURL = "https://api.eatstreet.com/publicapi/v1/restaurant/" + restaurantKey +
             "?access-token=a558a49dffe756bd";
-
         $.ajax({
             url: restaurantURL,
             method: "GET"
         }).done(function(response) {
-            
             /* create the card that we want on the page and 
                 append everything together */
             var foodCard = $("<div class='card'></div>");
             var foodCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
             var foodCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
             
+            foodCardHeader.html(response.restaurant.name);
             /* first row of the card */
             var foodCardRow = $("<div class='row'></div>");
             var foodCardImageColumn = $("<div class='col-md-2'></div>");
-            var img = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>");
-            var foodCardContentColumn = $("<div class='col-md-10'></div>");
-            var streetAddress = $("<h4>" + response.restaurant.streetAddress + "</h4>");
-            var restaurantCity = $("<h5>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</h5>");
-            var foodTypes = $("<h5>" + response.restaurant.foodTypes + "</h5>");
-            var foodCardInnerRow = $("<div class='row'></div>");
-            var button = $("<a href='" + response.restaurant.url + "' class='btn btn-secondary' target='_blank'>Go To Website</a>");
+                var img = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.restaurant.logoUrl + "'>");
+            var foodCardContentColumn = $("<div class='col-md-10 foodContent'></div>");
+                var streetAddress = $("<p>" + response.restaurant.streetAddress + "</p>");
+                var restaurantCity = $("<p>" + response.restaurant.city + ", " + response.restaurant.state + " - " + response.restaurant.zip + "</p>");
+                var foodTypes = $("<p>" + response.restaurant.foodTypes +"</p>");
+                var hoursTitle = $("<h4></h4>");
+                hoursTitle.html("Hours");
+                var sunday = response.restaurant.hours.Sunday;
+                if(sunday === undefined)
+                    sunday = "N/A";
+                var hours = $("<p>Monday : " + response.restaurant.hours.Monday + "<br>" +
+                              "Tuesday : " + response.restaurant.hours.Tuesday + "<br>" +
+                              "Wednesday : " + response.restaurant.hours.Wednesday + "<br>" +
+                              "Thursday : " + response.restaurant.hours.Thursday + "<br>" +
+                              "Friday : " + response.restaurant.hours.Friday + "<br>" +
+                              "Saturday : " + response.restaurant.hours.Saturday + "<br>" +
+                              "Sunday : " + sunday + "<br></p>");
+                var offersDelivery = $("<h5></h5>");
+                var offersPickup = $("<h5></h5>");
+                if(response.restaurant.offersDelivery)
+                    offersDelivery.html("Offers Delivery ? YES" );
+                else
+                    offersDelivery.html("Offers Delivery ? NO" );
+                if(response.restaurant.offersPickup)
+                    offersPickup.html("Offers Pickup ? YES" );
+                else
+                    offersPickup.html("Offers Pickup ? NO" );
+                var foodCardInnerRow = $("<div class='row'></div>");
+                var button = $("<a href='" + response.restaurant.url + "' class='btn btn-secondary' target='_blank'>Go To Website</a>");
 
             foodCardImageColumn.append(img);
             foodCardContentColumn.append(streetAddress);
             foodCardContentColumn.append(restaurantCity);
             foodCardContentColumn.append(foodTypes);
+            foodCardContentColumn.append(hoursTitle);
+            foodCardContentColumn.append(hours);
+            foodCardContentColumn.append(offersDelivery);
+            foodCardContentColumn.append(offersPickup);
             foodCardContentColumn.append(button);
 
-            var foodCardAnotherRow = $("<div class='row'></div>");
-            var col = $("<div class='col'></div>");
-            var heading = "<h4>Hours of Operation for the week</h4>";
-            var para = "<p><strong>Monday:</strong> " + response.restaurant.hours.Monday[0] +
-                        "<br><strong>Tuesday:</strong> " + response.restaurant.hours.Tuesday[0] +
-                        "<br><strong>Wednesday:</strong> " + response.restaurant.hours.Wednesday[0] +
-                        "<br><strong>Thursday:</strong> " + response.restaurant.hours.Thursday[0] +
-                        "<br><strong>Friday:</strong> " + response.restaurant.hours.Friday[0] +
-                        "<br><strong>Saturday:</strong> " + response.restaurant.hours.Saturday[0] + "</p>";
-
-            col.append(heading);
-            col.append(para);
-            foodCardAnotherRow.append(col);
-            foodCardHeader.html("<h3>" + response.restaurant.name + "</h3>");
-    
             foodCardRow.append(foodCardImageColumn);
             foodCardRow.append(foodCardContentColumn);
 
             foodCardBody.append(foodCardRow);
-            foodCardBody.append(foodCardAnotherRow);
 
             foodCard.append(foodCardHeader);
             foodCard.append(foodCardBody);
@@ -364,65 +388,91 @@ $(document).ready(function(){
             /* append the whole card onto the primary content */
             $(".primary-content").append(foodCard);
         });
-    });  
+    });
 
     $(document.body).on("click", ".btn-more-info", function() {
-
         /* empty the primary content on the page */
         $(".primary-content").html('');
-
         /* grab the event id and store it to the value */
         var eventID = $(this).attr("record-id");
-
+        var eventType = $(this).attr("event-type");
         /* url for the specific seat geek event */
-        var sgEventURL = "https://api.seatgeek.com/2/events/" + eventID + "?client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
-
+        var sgEventURL = "https://api.seatgeek.com/2/" + eventType + "/" + eventID + "?client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
+        console.log(sgEventURL);
         $.ajax({
             url: sgEventURL,
             method: "GET"
         }).done(function(response){
-            console.log(response);
-
             /* storing the data into variables */
             var eventName = response.title;
-
             var eventCard = $("<div class='card'></div>");
             var eventCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
-            var eventCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>")
+            var eventCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
 
             /* first row of the card */
             var eventCardRow = $("<div class='row'></div>");
-                var eventCardImageColumn = $("<div class='col-md-2'></div>");
-                    var eventImg = $("<img class='img-thumbnail rounded' width='100px' height='100px' src='" + response.performers[0].image + "'>");
-                var eventCardContentColumn = $("<div class='col-md-10'></div>");
-                    var eventStreetAddress = $("<h4>" + response.venue.address + "</h4>");
-                    var eventCity = $("<h5>" + response.venue.extended_address + "</h5>");
-                    var eventButton = $("<a href='" + response.url + "' class='btn btn-secondary' target='_blank'>Grab Tickets!</a>");
 
-            /* second row of the card */
-            var eventCardAnotherRow = $("<div class='row'></div>"); 
-                var col = $("<div class='col'></div>");
-                var heading = "<br><h4>Price Information</h4>";
-                var para = "<p><strong>Average Price: </strong> " + "$" + response.stats.average_price +
-                            "<br><strong>Lowest Price: </strong> " + "$" + response.stats.lowest_price +
-                            "<br><strong>Highest Price: </strong> " + "$" + response.stats.highest_price + "</p>";
+            var eventCardImageColumn = $("<div class='col-md-2'></div>");
+            var eventImg = $("<img class='rounded' width='100px' height='100px'>");
+            
+            var eventCardContentColumn = $("<div class='col-md-10'></div>");
+            var eventStreetLocation = $("<h5></h5>");
+            var eventStreetAddress = $("<h5></h5>");
+            var hr = $("<hr>");
+            var heading = $("<h4>Price Information</h4>");
+            var price = $("<p></p>");
+            var eventButton = $("<a class='btn btn-secondary' target='_blank'>Grab Tickets!</a>");
+            
+
+            if(eventType === "events"){
+                if(response.performers[0].image !== null)
+                    eventImg.attr("src", response.performers[0].image);
+                else
+                    eventImg.attr("src", "assets/images/logo.jpeg");
+                
+                eventButton.attr("href", response.url);
+                eventCardHeader.html(response.title);
+                eventStreetLocation.html(response.venue.name + " - " + moment(response.datetime_local).format("MMMM Do YYYY, h:mm:ss a"));
+                eventStreetAddress.html(response.venue.address + ", " + response.venue.extended_address);
+                price.html("<strong>Average Price : $" + response.stats.average_price + "<br>" +
+                           "Highest Price : $" + response.stats.highest_price + "<br>" + 
+                           "Listing Count : $" + response.stats.listing_count + "<br>" + 
+                           "Lowest Price : $" + response.stats.lowest_price + "<br>" + 
+                           "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
+            }
+            else if(eventType === "performers"){
+                console.log("performers");
+                if(response.image !== null)
+                    eventImg.attr("src", response.image);
+                else
+                    eventImg.attr("src", "assets/images/logo.jpeg");
+                
+                eventCardHeader.html(response.name);
+                eventStreetLocation.html(response.venue.name + " - " + response.datetime_local);
+                eventStreetAddress.html(response.venue.address + ", " + response.venue.extended_address);
+                price.html("<strong>Average Price : $" + response.stats.average_price + "<br>" +
+                           "Highest Price : $" + response.stats.highest_price + "<br>" + 
+                           "Listing Count : $" + response.stats.listing_count + "<br>" + 
+                           "Lowest Price : $" + response.stats.lowest_price + "<br>" + 
+                           "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
+            }
+            else if(eventType === "venues"){
+                console.log("venues");
+            }
 
             /* appending everything into the card */
-            col.append(heading);
-            col.append(para);
-            eventCardAnotherRow.append(col);
-
             eventCardImageColumn.append(eventImg);
+            eventCardContentColumn.append(eventStreetLocation);
             eventCardContentColumn.append(eventStreetAddress);
-            eventCardContentColumn.append(eventCity);
+            eventCardContentColumn.append(hr);
+            eventCardContentColumn.append(heading);
+            eventCardContentColumn.append(price);
             eventCardContentColumn.append(eventButton);
 
             eventCardRow.append(eventCardImageColumn);
             eventCardRow.append(eventCardContentColumn);
 
-            eventCardHeader.append(eventName);
             eventCardBody.append(eventCardRow);
-            eventCardBody.append(eventCardAnotherRow);
             eventCard.append(eventCardHeader);
             eventCard.append(eventCardBody);
 
@@ -430,5 +480,4 @@ $(document).ready(function(){
             $(".primary-content").html(eventCard);
         });
     });
-
 });
