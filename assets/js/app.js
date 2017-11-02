@@ -26,6 +26,8 @@ $(document).ready(function(){
         }
         navigator.geolocation.getCurrentPosition(success, error);
     }
+
+    /*Removed code for top navbar search function. No longer using this feature.
     
     /* Function to get user IP address */
     /* Help to find current location */
