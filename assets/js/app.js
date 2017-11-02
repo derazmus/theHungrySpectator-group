@@ -42,8 +42,6 @@ $(document).ready(function(){
         });
     }, "jsonp");
 
-   
-
     var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
     
     /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
@@ -428,4 +426,5 @@ $(document).ready(function(){
             $(".primary-content").html(eventCard);
         });
     });
+
 });
