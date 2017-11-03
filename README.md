@@ -1,33 +1,7 @@
 
-<<<<<<< HEAD
-Synopsis of assignment: A website done in a group project which utalizes at least 2 APIs, an AJAX call for data, polished front end, quality coding standards, repeating elemenmts, bootstrap, must be deployed to github pages, user input validation and use firebase. 
-
-
-web link: https://derazmus.github.io/theHungrySpectator-group/
-
-Overall concept: Provide place where user could locate an event, concert or sporting event and the location food near by. Will also provide maps and weather. 
-
- 
-The Hungry Spectator
-
-APIs Used:
-SeatGeek
-StreetEats
-Google Maps
-DarkSky Weather
-
-Built with:
-HTML/CSS
-Bootstrap 4.0
-Animate.css
-jQuery
-Firebase 
-
-Possible Future Development:
-Add link to various ticket vendors so can find cheapest price
-
-=======
 # The Hungry Spectator
+
+Synopsis of assignment: A website done in a group project which utalizes at least 2 APIs, an AJAX call for data, polished front end, quality coding standards, repeating elemenmts, bootstrap, must be deployed to github pages, user input validation and use firebase. 
 
 https://derazmus.github.io/theHungrySpectator-group/
 
@@ -52,6 +26,10 @@ https://derazmus.github.io/theHungrySpectator-group/
 
 + Images are generated off of both APIs and if image is not avaliable a placeholder image is used. 
 
++ Uses google API to provice map of where is event etc is located
+
++ Uses DarkSky API to give the predicted weather for the day of the event. 
+
 ## Description: 
 
 + Provide one location in which you can locate an event, concert, sporting event etc and food. 
@@ -60,6 +38,8 @@ https://derazmus.github.io/theHungrySpectator-group/
 
 + SeatGeek http://platform.seatgeek.com/
 + EatStreet https://developers.eatstreet.com/
++ Google Maps https://developers.google.com/maps/
++ DarkSky https://darksky.net/dev/docs
 
 
 ## Technology used:
@@ -74,9 +54,8 @@ https://derazmus.github.io/theHungrySpectator-group/
 
 ## Future Developement:
 
-+ Add Map and Weather via Google Maps and Dark Sky API.
 + Show on page tickets avaliable rather  than going to link.
 + Have ability to make reservations from page rather than going through link. 
 + Add search parameters for resturants (i.e price, type of food etc.).
->>>>>>> master
+
 
