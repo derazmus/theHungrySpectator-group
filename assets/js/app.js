@@ -46,6 +46,26 @@ $(document).ready(function(){
         });
     }, "jsonp");
 
+    /* Contact page form options change event. Updating variable to select address/phone*/
+    var name = $("#name").val();
+
+    if(name === ''){
+        $("#name").css("border", "1px solid red");
+    }
+    
+    if(name === ''){
+        $("#email").css("border", "1px solid red");
+    }
+
+     $("#name").on("focus", function(){
+        $("#name").css("border", "none");
+    });
+
+     $("#email").on("focus", function(){
+        $("#email").css("border", "none");
+     });
+    
+    
     var eventEndpoint = $(".eventEndpoint").val(); /* "select option menu" -> Default value is : "default" */
     
     /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
