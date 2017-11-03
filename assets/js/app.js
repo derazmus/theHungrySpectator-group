@@ -327,6 +327,7 @@ $(document).ready(function(){
             url: restaurantURL,
             method: "GET"
         }).done(function(response) {
+            console.log(response);
             /* create the card that we want on the page and 
                 append everything together */
             var foodCard = $("<div class='card'></div>");
@@ -387,10 +388,13 @@ $(document).ready(function(){
 
             /* append the whole card onto the primary content */
             $(".primary-content").append(foodCard);
+            displayMap(response.restaurant.latitude, response.restaurant.longitude);
+            // console.log(moment().unix());
+            displayWeather(moment().unix(), response.restaurant.latitude, response.restaurant.longitude);
         });
     });
 
-    $(document.body).on("click", ".btn-more-info", function() {
+    $(document.body).on("click", ".btn-more-info", function(){
         /* empty the primary content on the page */
         $(".primary-content").html('');
         /* grab the event id and store it to the value */
@@ -403,10 +407,11 @@ $(document).ready(function(){
             url: sgEventURL,
             method: "GET"
         }).done(function(response){
+            console.log(response);
             /* storing the data into variables */
             var eventName = response.title;
             var eventCard = $("<div class='card'></div>");
-            var eventCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+            var eventCardHeader = $("<div class='card-header' style='background-color:#8bd6ba; color: white;'></div>");
             var eventCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
 
             /* first row of the card */
@@ -423,7 +428,6 @@ $(document).ready(function(){
             var price = $("<p></p>");
             var eventButton = $("<a class='btn btn-secondary' target='_blank'>Grab Tickets!</a>");
             
-
             if(eventType === "events"){
                 if(response.performers[0].image !== null)
                     eventImg.attr("src", response.performers[0].image);
@@ -478,6 +482,73 @@ $(document).ready(function(){
 
             /* add the event card into the primary content container */
             $(".primary-content").html(eventCard);
+            displayMap(response.venue.location.lat, response.venue.location.lon);
+            displayWeather(response.datetime_local, response.venue.location.lat, response.venue.location.lon);
         });
     });
+    
+    function displayMap(lat, lon){
+        console.log("latitude : " + lat + " Longitude : " + lon);
+
+        var row = $("<div class='row weather-map'></div>");
+        var mapColumn = $("<div class='col-md-8'></div>");
+        var mapCard = $("<div class='card map-card'></div>");
+        var mapCardHeader = $("<div class='card-header text-white' style='background-color:#8bd6ba;'>Map</div>");
+        var mapCardBody = $("<div class='card-body map-holder' id='map-area'></div>");
+
+        mapCard.append(mapCardHeader);
+        mapCard.append(mapCardBody);
+        mapColumn.append(mapCard);
+
+        row.append(mapColumn);
+        $(".primary-content").append(row);
+        initMap(lat, lon);
+    }
+
+    function initMap(lat, lon) {
+        var geoLocation = {lat: lat, lng: lon};
+        var map = new google.maps.Map(document.getElementById('map-area'), {
+            zoom: 15,
+            center: geoLocation
+        });
+        var marker = new google.maps.Marker({
+            position: geoLocation,
+            map: map
+        });
+    }
+    function displayWeather(date, lat, lon){
+        console.log("Date : " + date + "latitude : " + lat + " Longitude : " + lon);
+        var weatherQuery = "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/e319b7a02841ce79f4c9eba2f95edae6/" + lat +"," + lon + "," + date + "?exclude=hourly,daily,minutely,flags";
+        var weatherColumn = $("<div class='col-md-4'></div>");
+        var weatherCard = $("<div class='card map-card'></div>");
+        var weatherCardHeader = $("<div class='card-header text-white' style='background-color:#8bd6ba;'>Weather</div>");
+        var weatherCardBody = $("<div class='card-body text-center' id='weather-area'></div>");
+
+        var weatherIcon = $("<img class='img-fluid weather-icon'></h3>");
+        var weatherSummary = $("<h4></h4>");
+        var weatherTemprature = $("<p></p>");
+        var weatherHumidity = $("<p></p>");
+
+        $.ajax({
+            url: weatherQuery,
+            method: 'GET'
+        }).done(function(response){
+            weatherIcon.attr("src", "assets/images/" + response.currently.icon + ".png");
+            weatherSummary.html(response.currently.summary);
+            var celcius = (parseFloat(response.currently.temperature) - 32 ) * 5/9 ;
+            weatherTemprature.html("Temprature : " + response.currently.temperature + " &#176;F / " + celcius.toFixed(2) +" &#176;C");
+            weatherHumidity.html("Humidity : " + response.currently.humidity);
+
+            weatherCardBody.append(weatherIcon);
+            weatherCardBody.append(weatherSummary);
+            weatherCardBody.append(weatherTemprature);
+            weatherCardBody.append(weatherHumidity);
+
+            weatherCard.append(weatherCardHeader);
+            weatherCard.append(weatherCardBody);
+
+            weatherColumn.append(weatherCard);
+            $(".weather-map").append(weatherColumn);
+        });
+    }
 });

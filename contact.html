@@ -3,11 +3,14 @@
     <head>
         <link rel="icon" type="image/gif" href="http://www.safarisafricana.com/wp-content/uploads/2013/09/icon_binoculars_big1.png"/>
         <title>Contact Us</title>
+        
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
         <!-- Font Awesome CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -24,13 +27,12 @@
 
     <body style= "background-color: #d3d3d3;">
 
-        <nav class="navbar navbar-expand-lg navbar" id=navbar-whole style="background-color: #8bd6ba;">
+        <nav class="navbar navbar-light navbar-expand-lg" id="navbar-whole" style="background-color: #8bd6ba;">
             <div class="container">
                 <h1>
                     <img src="assets/images/binoculars.png" id="smallbinoculars">
                     <a class="navbar-brand" href="#" style="color: black;">The Hungry Spectator</a>
                 </h1>
-
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -54,31 +56,33 @@
         <br>
         <img src="assets/images/logo.png" class="rounded mx-auto d-block animated zoomInDown" alt="The Hungry Spectator" id="logo">
 
-        <form>
-            <div  class="col-md-4 inline-center" id="contact">
-                <div class="form-group">
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="Enter name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Address</label>
-                        <input type="address" class="form-control" id="address" placeholder="Enter address">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Phone</label>
-                        <input type="phone" class="form-control" id="phone" placeholder="(555)555-5555">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 offset-sm-0">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Name</label>
+                            <input type="name" class="form-control" id="name" placeholder="Enter name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Address</label>
+                            <input type="address" class="form-control" id="address" placeholder="Enter address">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Phone</label>
+                            <input type="phone" class="form-control" id="phone" placeholder="(555)555-5555">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <button type="submit" class="btn btn-secondary" id="submit">Submit</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-secondary" id="submit">Submit</button>
             </div>
-        </form>
-        <br>
+        </div>
 
         <footer class="bg" style= "background-color: #FF9933;">
             <div class="container-fluid">
