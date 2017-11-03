@@ -434,11 +434,18 @@ $(document).ready(function(){
                 eventCardHeader.html(response.title);
                 eventStreetLocation.html(response.venue.name + " - " + moment(response.datetime_local).format("MMMM Do YYYY, h:mm:ss a"));
                 eventStreetAddress.html(response.venue.address + ", " + response.venue.extended_address);
-                price.html("<strong>Average Price : $" + response.stats.average_price + "<br>" +
-                           "Highest Price : $" + response.stats.highest_price + "<br>" + 
-                           "Listing Count : $" + response.stats.listing_count + "<br>" + 
-                           "Lowest Price : $" + response.stats.lowest_price + "<br>" + 
-                           "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
+                
+                var averagePrice = checkNull(response.stats.average_price);
+                var highestPrice = checkNull(response.stats.highest_price);
+                var listingCount = checkNull(response.stats.listing_count);
+                var lowestPrice = checkNull(response.stats.lowest_price);
+                var goodDeals = checkNull(response.stats.lowest_price_good_deals);
+
+                price.html("<strong>Average Price : " + averagePrice + "<br>" +
+                           "Highest Price : " + highestPrice + "<br>" + 
+                           "Listing Count : " + listingCount + "<br>" + 
+                           "Lowest Price : " + lowestPrice + "<br>" + 
+                           "Lowest Price Good Deals : " + goodDeals + "</strong><br>");
             }
             else if(eventType === "performers"){
                 if(response.image !== null)
@@ -449,11 +456,18 @@ $(document).ready(function(){
                 eventCardHeader.html(response.name);
                 eventStreetLocation.html(response.venue.name + " - " + response.datetime_local);
                 eventStreetAddress.html(response.venue.address + ", " + response.venue.extended_address);
-                price.html("<strong>Average Price : $" + response.stats.average_price + "<br>" +
-                           "Highest Price : $" + response.stats.highest_price + "<br>" + 
-                           "Listing Count : $" + response.stats.listing_count + "<br>" + 
-                           "Lowest Price : $" + response.stats.lowest_price + "<br>" + 
-                           "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
+                
+                var averagePrice = checkNull(response.stats.average_price);
+                var highestPrice = checkNull(response.stats.highest_price);
+                var listingCount = checkNull(response.stats.listing_count);
+                var lowestPrice = checkNull(response.stats.lowest_price);
+                var goodDeals = checkNull(response.stats.lowest_price_good_deals);
+                
+                price.html("<strong>Average Price : " + averagePrice + "<br>" +
+                           "Highest Price : " + highestPrice + "<br>" + 
+                           "Listing Count : " + listingCount + "<br>" + 
+                           "Lowest Price : " + lowestPrice + "<br>" + 
+                           "Lowest Price Good Deals : " + goodDeals + "</strong><br>");
             }
             else if(eventType === "venues"){
             }
@@ -480,6 +494,12 @@ $(document).ready(function(){
             displayWeather(response.datetime_local, response.venue.location.lat, response.venue.location.lon);
         });
     });
+    function checkNull(param){
+        if(param === null)
+            return "N/A";
+        else
+            return "$ " + param;
+    }
     
     function displayMap(lat, lon){
         var row = $("<div class='row weather-map'></div>");
@@ -527,7 +547,7 @@ $(document).ready(function(){
             weatherIcon.attr("src", "assets/images/" + response.currently.icon + ".png");
             weatherSummary.html(response.currently.summary);
             var celcius = (parseFloat(response.currently.temperature) - 32 ) * 5/9 ;
-            weatherTemprature.html("Temprature : " + response.currently.temperature + " &#176;F / " + celcius.toFixed(2) +" &#176;C");
+            weatherTemprature.html("<strong>" + response.currently.temperature + " &#176;F / " + celcius.toFixed(2) +" &#176;C" + "</strong>");
             weatherHumidity.html("Humidity : " + response.currently.humidity);
 
             weatherCardBody.append(weatherIcon);
