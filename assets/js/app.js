@@ -327,7 +327,6 @@ $(document).ready(function(){
             url: restaurantURL,
             method: "GET"
         }).done(function(response) {
-            console.log(response);
             /* create the card that we want on the page and 
                 append everything together */
             var foodCard = $("<div class='card'></div>");
@@ -389,7 +388,6 @@ $(document).ready(function(){
             /* append the whole card onto the primary content */
             $(".primary-content").append(foodCard);
             displayMap(response.restaurant.latitude, response.restaurant.longitude);
-            // console.log(moment().unix());
             displayWeather(moment().unix(), response.restaurant.latitude, response.restaurant.longitude);
         });
     });
@@ -402,12 +400,10 @@ $(document).ready(function(){
         var eventType = $(this).attr("event-type");
         /* url for the specific seat geek event */
         var sgEventURL = "https://api.seatgeek.com/2/" + eventType + "/" + eventID + "?client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
-        console.log(sgEventURL);
         $.ajax({
             url: sgEventURL,
             method: "GET"
         }).done(function(response){
-            console.log(response);
             /* storing the data into variables */
             var eventName = response.title;
             var eventCard = $("<div class='card'></div>");
@@ -445,7 +441,6 @@ $(document).ready(function(){
                            "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
             }
             else if(eventType === "performers"){
-                console.log("performers");
                 if(response.image !== null)
                     eventImg.attr("src", response.image);
                 else
@@ -461,7 +456,6 @@ $(document).ready(function(){
                            "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
             }
             else if(eventType === "venues"){
-                console.log("venues");
             }
 
             /* appending everything into the card */
@@ -488,8 +482,6 @@ $(document).ready(function(){
     });
     
     function displayMap(lat, lon){
-        console.log("latitude : " + lat + " Longitude : " + lon);
-
         var row = $("<div class='row weather-map'></div>");
         var mapColumn = $("<div class='col-md-8'></div>");
         var mapCard = $("<div class='card map-card'></div>");
@@ -517,12 +509,11 @@ $(document).ready(function(){
         });
     }
     function displayWeather(date, lat, lon){
-        console.log("Date : " + date + "latitude : " + lat + " Longitude : " + lon);
         var weatherQuery = "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/e319b7a02841ce79f4c9eba2f95edae6/" + lat +"," + lon + "," + date + "?exclude=hourly,daily,minutely,flags";
         var weatherColumn = $("<div class='col-md-4'></div>");
         var weatherCard = $("<div class='card map-card'></div>");
         var weatherCardHeader = $("<div class='card-header text-white' style='background-color:#8bd6ba;'>Weather</div>");
-        var weatherCardBody = $("<div class='card-body text-center' id='weather-area'></div>");
+        var weatherCardBody = $("<div class='card-body text-center' id='weather-area' style='background-color:#d3d3d3'></div>");
 
         var weatherIcon = $("<img class='img-fluid weather-icon'></h3>");
         var weatherSummary = $("<h4></h4>");
