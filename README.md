@@ -50,7 +50,7 @@ https://derazmus.github.io/theHungrySpectator-group/
 + jQuery
 + AJAX call
 + Firebase
-+ Cookies
++ Session Storage
 
 ## Future Developement:
 
