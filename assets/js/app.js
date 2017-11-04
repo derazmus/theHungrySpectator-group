@@ -67,6 +67,25 @@ $(document).ready(function(){
         });
     }
 
+    var name = $("#name").val();
+
+        if(name === ''){
+            $("#name").css("border", "1px solid red");
+        }
+
+        if(name === ''){
+            $("#email").css("border", "1px solid red");
+        }
+
+        $("#name").on("focus", function(){
+            $("#name").css("border", "none");
+        });
+
+        $("#email").on("focus", function(){
+            $("#email").css("border", "none");
+        });
+
+        
     /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
     $(".container").on("change", ".eventEndpoint", function(){
         eventEndpoint = $(".eventEndpoint").val();
