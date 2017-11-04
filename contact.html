@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <link rel="icon" type="image/gif" src = "assets/images/binoculars.png"/>
+        <link rel="icon" type="image/gif" href="assets/images/binoculars.png"/>
         <title>Contact Us</title>
         
         <!-- Required meta tags -->
@@ -30,7 +30,7 @@
         <nav class="navbar navbar-light navbar-expand-lg" id="navbar-whole" style="background-color: #8bd6ba;">
             <div class="container">
                 <h1>
-                    <img src="assets/images/binoculars.png" id="smallbinoculars">
+                    <img src="assets/images/binoculars.png" id="smallbinoculars" alt="logo">
                     <a class="navbar-brand" href="#" style="color: black;">The Hungry Spectator</a>
                 </h1>
 
@@ -54,33 +54,39 @@
             </div>
         </nav><!-- Navbar -->
         <br>
-        <img src="assets/images/logo.png" class="img-responsive rounded mx-auto d-block animated zoomInDown" alt="The Hungry Spectator" id="logo">
-        <form>
-            <div  class="col-auto inline-center" id="contact">
-                <div class="form-group">
-                    <div class="form-group">
-                        <label class = "form-control-lable" for="exampleInputPassword1">Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="Enter name" required>
-                    </div>
-                    <div class="form-group">
-                        <label  class = "form-control-lable" for="exampleInputPassword1">Address</label>
-                        <input type="address" class="form-control" id="address" placeholder="Enter address">
-                    </div>
-                    <div class="form-group">
-                        <label  class = "form-control-lable" for="exampleInputPassword1">Phone</label>
-                        <input type="phone" class="form-control" id="phone" placeholder="(555)555-5555">
-                    </div>
-                    <div class="form-group">
-                        <label  class = "form-control-lable" for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
-                    <button class="btn btn-default" id="submit" type="button" style= "background-color: gray;">Submit</button>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="assets/images/logo.png" class="img-responsive rounded mx-auto d-block animated zoomInDown" alt="The Hungry Spectator" id="logo">
                 </div>
             </div>
-        </form>
-        <br>
-
+        
+            <div class="row">
+                <div class="col-md-8 offset-md-2 offset-0">
+                    <form>
+                        <div class="form-group">
+                            <label class = "form-control-lable" for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+                        </div>
+                        <div class="form-group">
+                            <label  class = "form-control-lable" for="address">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="Enter address">
+                        </div>
+                        <div class="form-group">
+                            <label  class = "form-control-lable" for="phone">Phone</label>
+                            <input type="number" class="form-control" id="phone" placeholder="(555)555-5555">
+                        </div>
+                        <div class="form-group">
+                            <label  class = "form-control-lable" for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <button class="btn btn-default" id="submit" type="button" style= "background-color: gray;">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <br>
+        </div>
         <footer class="bg" style= "background-color: #FF9933;">
             <div class="container-fluid">
                 <div class="row">
@@ -91,7 +97,6 @@
                 </div>
             </div>
         </footer>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

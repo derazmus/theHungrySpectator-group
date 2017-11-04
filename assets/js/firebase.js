@@ -25,7 +25,7 @@ $(document).ready(function(){
         phone = $("#phone").val().trim();
         email = $("#email").val().trim();
 
-        if(name !== '' && email !== ''){
+        if(name !== "" && email !== ""){
            //pushes to database
             database.ref().push({
                 name: name,
@@ -35,10 +35,12 @@ $(document).ready(function(){
             });
         }
         else{
-            if(name === '')
+            if(name === ""){
                 $("#name").css("border", "1px solid red");
-            if(email === '')
+            }
+            if(email === ""){
                 $("#email").css("border", "1px solid red");
+            }
         }
         // Clears all of the text-boxes
         $("#name").val("");
