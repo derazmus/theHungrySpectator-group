@@ -66,7 +66,7 @@ $(document).ready(function(){
             displaySeatGeekEvent(data, "events");
         });
     }
-
+    
     /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
     $(".container").on("change", ".eventEndpoint", function(){
         eventEndpoint = $(".eventEndpoint").val();
