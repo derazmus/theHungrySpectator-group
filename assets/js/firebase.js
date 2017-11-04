@@ -1,4 +1,5 @@
- // Initialize Firebase
+$(document).ready(function(){
+    // Initialize Firebase
     var config = {
         apiKey: "AIzaSyBaSQnTDSw5lBSEttOIWKzI3I4g1wjlHz0",
         authDomain: "thehungryspectator.firebaseapp.com",
@@ -19,21 +20,30 @@
      //  Button for adding data
     $("#submit").on("click", function(event) {
         event.preventDefault();
-        name = $("#name").val();
-        address = $("#address").val();
-        phone = $("#phone").val();
-        email = $("#email").val();
+        name = $("#name").val().trim();
+        address = $("#address").val().trim();
+        phone = $("#phone").val().trim();
+        email = $("#email").val().trim();
 
+        if(name !== '' && email !== ''){
+           //pushes to database
+            database.ref().push({
+                name: name,
+                address: address,
+                phone: phone,
+                email: email
+            });
+        }
+        else{
+            if(name === '')
+                $("#name").css("border", "1px solid red");
+            if(email === '')
+                $("#email").css("border", "1px solid red");
+        }
         // Clears all of the text-boxes
         $("#name").val("");
         $("#address").val("");
         $("#phone").val("");
         $("#email").val("");
-        //pushes to database
-        database.ref().push({
-            name: name,
-            address: address,
-            phone: phone,
-            email: email
-       });
     });
+});
