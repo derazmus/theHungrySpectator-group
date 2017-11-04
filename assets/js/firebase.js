@@ -46,4 +46,10 @@ $(document).ready(function(){
         $("#phone").val("");
         $("#email").val("");
     });
+    $("#name").on("focus", function(){
+        $("#name").css("border", "none");
+    });
+    $("#email").on("focus", function(){
+        $("#email").css("border", "none");
+    });
 });
