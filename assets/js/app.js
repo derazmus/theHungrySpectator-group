@@ -66,27 +66,7 @@ $(document).ready(function(){
             displaySeatGeekEvent(data, "events");
         });
     }
-
-    /* Contact validation on change event. Red border appears of option not selected*/
-    var name = $("#name").val();
-
-        if(name === ''){
-            $("#name").css("border", "1px solid red");
-        }
-
-        if(name === ''){
-            $("#email").css("border", "1px solid red");
-        }
-        /* Remove border if any*/
-        $("#name").on("focus", function(){
-            $("#name").css("border", "none");
-        });
-        /* Remove border if any*/
-        $("#email").on("focus", function(){
-            $("#email").css("border", "none");
-        });
-
-        
+    
     /* "select option menu" on change event. When triggered, updating "eventEndpoint" variable to selected option */
     $(".container").on("change", ".eventEndpoint", function(){
         eventEndpoint = $(".eventEndpoint").val();
@@ -407,10 +387,12 @@ $(document).ready(function(){
 
             /* append the whole card onto the primary content */
             $(".primary-content").append(foodCard);
+            displayMap(response.restaurant.latitude, response.restaurant.longitude);
+            displayWeather(moment().unix(), response.restaurant.latitude, response.restaurant.longitude);
         });
     });
 
-    $(document.body).on("click", ".btn-more-info", function() {
+    $(document.body).on("click", ".btn-more-info", function(){
         /* empty the primary content on the page */
         $(".primary-content").html('');
         /* grab the event id and store it to the value */
@@ -418,7 +400,6 @@ $(document).ready(function(){
         var eventType = $(this).attr("event-type");
         /* url for the specific seat geek event */
         var sgEventURL = "https://api.seatgeek.com/2/" + eventType + "/" + eventID + "?client_id=OTM3ODIzNHwxNTA4ODAxNzUyLjY0";
-        console.log(sgEventURL);
         $.ajax({
             url: sgEventURL,
             method: "GET"
@@ -426,7 +407,7 @@ $(document).ready(function(){
             /* storing the data into variables */
             var eventName = response.title;
             var eventCard = $("<div class='card'></div>");
-            var eventCardHeader = $("<div class='card-header'style='background-color:#8bd6ba; color: white;'></div>");
+            var eventCardHeader = $("<div class='card-header' style='background-color:#8bd6ba; color: white;'></div>");
             var eventCardBody = $("<div class='card-body'style='background-color:#d3d3d3'></div>");
 
             /* first row of the card */
@@ -443,7 +424,6 @@ $(document).ready(function(){
             var price = $("<p></p>");
             var eventButton = $("<a class='btn btn-secondary' target='_blank'>Grab Tickets!</a>");
             
-
             if(eventType === "events"){
                 if(response.performers[0].image !== null)
                     eventImg.attr("src", response.performers[0].image);
@@ -454,14 +434,20 @@ $(document).ready(function(){
                 eventCardHeader.html(response.title);
                 eventStreetLocation.html(response.venue.name + " - " + moment(response.datetime_local).format("MMMM Do YYYY, h:mm:ss a"));
                 eventStreetAddress.html(response.venue.address + ", " + response.venue.extended_address);
-                price.html("<strong>Average Price : $" + response.stats.average_price + "<br>" +
-                           "Highest Price : $" + response.stats.highest_price + "<br>" + 
-                           "Listing Count : $" + response.stats.listing_count + "<br>" + 
-                           "Lowest Price : $" + response.stats.lowest_price + "<br>" + 
-                           "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
+                
+                var averagePrice = checkNull(response.stats.average_price);
+                var highestPrice = checkNull(response.stats.highest_price);
+                var listingCount = checkNull(response.stats.listing_count);
+                var lowestPrice = checkNull(response.stats.lowest_price);
+                var goodDeals = checkNull(response.stats.lowest_price_good_deals);
+
+                price.html("<strong>Average Price : " + averagePrice + "<br>" +
+                           "Highest Price : " + highestPrice + "<br>" + 
+                           "Listing Count : " + listingCount + "<br>" + 
+                           "Lowest Price : " + lowestPrice + "<br>" + 
+                           "Lowest Price Good Deals : " + goodDeals + "</strong><br>");
             }
             else if(eventType === "performers"){
-                console.log("performers");
                 if(response.image !== null)
                     eventImg.attr("src", response.image);
                 else
@@ -470,14 +456,20 @@ $(document).ready(function(){
                 eventCardHeader.html(response.name);
                 eventStreetLocation.html(response.venue.name + " - " + response.datetime_local);
                 eventStreetAddress.html(response.venue.address + ", " + response.venue.extended_address);
-                price.html("<strong>Average Price : $" + response.stats.average_price + "<br>" +
-                           "Highest Price : $" + response.stats.highest_price + "<br>" + 
-                           "Listing Count : $" + response.stats.listing_count + "<br>" + 
-                           "Lowest Price : $" + response.stats.lowest_price + "<br>" + 
-                           "Lowest Price Good Deals : $" + response.stats.lowest_price_good_deals + "</strong><br>");
+                
+                var averagePrice = checkNull(response.stats.average_price);
+                var highestPrice = checkNull(response.stats.highest_price);
+                var listingCount = checkNull(response.stats.listing_count);
+                var lowestPrice = checkNull(response.stats.lowest_price);
+                var goodDeals = checkNull(response.stats.lowest_price_good_deals);
+                
+                price.html("<strong>Average Price : " + averagePrice + "<br>" +
+                           "Highest Price : " + highestPrice + "<br>" + 
+                           "Listing Count : " + listingCount + "<br>" + 
+                           "Lowest Price : " + lowestPrice + "<br>" + 
+                           "Lowest Price Good Deals : " + goodDeals + "</strong><br>");
             }
             else if(eventType === "venues"){
-                console.log("venues");
             }
 
             /* appending everything into the card */
@@ -498,6 +490,76 @@ $(document).ready(function(){
 
             /* add the event card into the primary content container */
             $(".primary-content").html(eventCard);
+            displayMap(response.venue.location.lat, response.venue.location.lon);
+            displayWeather(response.datetime_local, response.venue.location.lat, response.venue.location.lon);
         });
     });
+    function checkNull(param){
+        if(param === null)
+            return "N/A";
+        else
+            return "$ " + param;
+    }
+    
+    function displayMap(lat, lon){
+        var row = $("<div class='row weather-map'></div>");
+        var mapColumn = $("<div class='col-md-8'></div>");
+        var mapCard = $("<div class='card map-card'></div>");
+        var mapCardHeader = $("<div class='card-header text-white' style='background-color:#8bd6ba;'>Map</div>");
+        var mapCardBody = $("<div class='card-body map-holder' id='map-area'></div>");
+
+        mapCard.append(mapCardHeader);
+        mapCard.append(mapCardBody);
+        mapColumn.append(mapCard);
+
+        row.append(mapColumn);
+        $(".primary-content").append(row);
+        initMap(lat, lon);
+    }
+
+    function initMap(lat, lon) {
+        var geoLocation = {lat: lat, lng: lon};
+        var map = new google.maps.Map(document.getElementById('map-area'), {
+            zoom: 15,
+            center: geoLocation
+        });
+        var marker = new google.maps.Marker({
+            position: geoLocation,
+            map: map
+        });
+    }
+    function displayWeather(date, lat, lon){
+        var weatherQuery = "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/e319b7a02841ce79f4c9eba2f95edae6/" + lat +"," + lon + "," + date + "?exclude=hourly,daily,minutely,flags";
+        var weatherColumn = $("<div class='col-md-4'></div>");
+        var weatherCard = $("<div class='card map-card'></div>");
+        var weatherCardHeader = $("<div class='card-header text-white' style='background-color:#8bd6ba;'>Weather</div>");
+        var weatherCardBody = $("<div class='card-body text-center' id='weather-area' style='background-color:#d3d3d3'></div>");
+
+        var weatherIcon = $("<img class='img-fluid weather-icon'></h3>");
+        var weatherSummary = $("<h4></h4>");
+        var weatherTemprature = $("<p></p>");
+        var weatherHumidity = $("<p></p>");
+
+        $.ajax({
+            url: weatherQuery,
+            method: 'GET'
+        }).done(function(response){
+            weatherIcon.attr("src", "assets/images/" + response.currently.icon + ".png");
+            weatherSummary.html(response.currently.summary);
+            var celcius = (parseFloat(response.currently.temperature) - 32 ) * 5/9 ;
+            weatherTemprature.html("<strong>" + response.currently.temperature + " &#176;F / " + celcius.toFixed(2) +" &#176;C" + "</strong>");
+            weatherHumidity.html("Humidity : " + response.currently.humidity);
+
+            weatherCardBody.append(weatherIcon);
+            weatherCardBody.append(weatherSummary);
+            weatherCardBody.append(weatherTemprature);
+            weatherCardBody.append(weatherHumidity);
+
+            weatherCard.append(weatherCardHeader);
+            weatherCard.append(weatherCardBody);
+
+            weatherColumn.append(weatherCard);
+            $(".weather-map").append(weatherColumn);
+        });
+    }
 });
