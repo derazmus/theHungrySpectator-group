@@ -67,6 +67,7 @@ $(document).ready(function(){
         });
     }
 
+    /* Contact validation on change event. Red border appears of option not selected*/
     var name = $("#name").val();
 
         if(name === ''){
@@ -76,11 +77,11 @@ $(document).ready(function(){
         if(name === ''){
             $("#email").css("border", "1px solid red");
         }
-
+        /* Remove border if any*/
         $("#name").on("focus", function(){
             $("#name").css("border", "none");
         });
-
+        /* Remove border if any*/
         $("#email").on("focus", function(){
             $("#email").css("border", "none");
         });
